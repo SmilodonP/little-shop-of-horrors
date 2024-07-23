@@ -4,6 +4,10 @@
 
 "Little Esty Shop" is a group project that requires students to build a fictitious e-commerce platform where merchants and admins can manage inventory and fulfill customer invoices.
 
+## Schema Layout 
+![Screenshot 2024-07-23 at 2 13 04 PM](https://github.com/user-attachments/assets/0e18f99c-5b43-4b3a-ac7a-febaff7c7a21)
+
+
 ## Learning Goals
 - Practice designing a normalized database schema and defining model relationships
 - Utilize advanced routing techniques including namespacing to organize and group like functionality together.
@@ -21,7 +25,8 @@
 - Continuous Integration / Continuous Deployment is not allowed
 - Use of scaffolding is not allowed
 - Any gems added to the project must be approved by an instructor
-  - Pre-approved gems are `capybara, pry, faker, factory_bot_rails, orderly, simplecov, shoulda-matchers, launchy`
+  - Pre-approved gems are `![Screenshot 2024-07-23 at 2 13 04 PM](https://github.com/user-attachments/assets/f3f31bd1-97e5-4b8c-bb85-7c5b6cc76db1)
+capybara, pry, faker, factory_bot_rails, orderly, simplecov, shoulda-matchers, launchy`
 
 ## Setup
 
