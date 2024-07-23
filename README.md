@@ -7,6 +7,11 @@
 ## Schema Layout 
 ![Screenshot 2024-07-23 at 2 13 04 PM](https://github.com/user-attachments/assets/0e18f99c-5b43-4b3a-ac7a-febaff7c7a21)
 
+## Colaborators 
+Cory Bretsch: [GitHub](https://github.com/CoryBretsch)
+James Cochran: [GitHub](https://github.com/James-Cochran)
+Lito Croy: [GitHub](https://github.com/litobot)
+Karl Fallenius: [GitHub](https://github.com/SmilodonP)
 
 ## Learning Goals
 - Practice designing a normalized database schema and defining model relationships
