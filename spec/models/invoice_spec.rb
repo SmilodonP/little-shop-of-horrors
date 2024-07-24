@@ -9,9 +9,7 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe "validations" do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:city) }
-    it { should validate_presence_of(:rank) }
-    it { should validate_numericality_of(:rank) }
+    it { should validate_presence_of(:customer_id) }
+    it { should validate_presence_of(:status) }
   end
 end
