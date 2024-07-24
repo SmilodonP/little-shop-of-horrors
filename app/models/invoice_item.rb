@@ -9,8 +9,8 @@ class InvoiceItem < ApplicationRecord
   validates_numericality_of :status
   
   enum status: {
-    pending 0,
-    packaged 1,
-    shipped 2
+    "pending": 0,
+    "packaged": 1,
+    "shipped": 2
   }
 end
