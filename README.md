@@ -11,7 +11,7 @@
 * Cory Bretsch: [GitHub](https://github.com/CoryBretsch)
 * James Cochran: [GitHub](https://github.com/James-Cochran)
 * Lito Croy: [GitHub](https://github.com/litobot)
-* Karl Fallenius: [GitHub](https://github.com/SmilodonP)
+* Karl Fallenius: [GitHub](https://github.com/SmilodonP), [LinkedIn] (https://www.linkedin.com/in/karlfallenius/)
 * Jan Lehigh: [GitHub](https://github.com/JCL461437)
   
 ## Learning Goals
