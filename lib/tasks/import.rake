@@ -11,34 +11,34 @@ namespace :csv_load do
 
   task :customers => :environment do
     import_csv("db/data/customers.csv", Customer)
+    ActiveRecord::Base.connection.reset_pk_sequence!('customers')
   end
 
   task :merchants => :environment do
     import_csv("db/data/merchants.csv", Merchant)
+    ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
   end
 
   task :invoices => :environment do
     import_csv("db/data/invoices.csv", Invoice)
+    ActiveRecord::Base.connection.reset_pk_sequence!('invoices')
   end
   
   task :items => :environment do
     import_csv("db/data/items.csv", Item)
+    ActiveRecord::Base.connection.reset_pk_sequence!('items')
   end
   
   task :invoice_items => :environment do
     import_csv("db/data/invoice_items.csv", InvoiceItem)
+    ActiveRecord::Base.connection.reset_pk_sequence!('invoice_items')
   end
   
   task :transactions => :environment do
     import_csv("db/data/transactions.csv", Transaction)
+    ActiveRecord::Base.connection.reset_pk_sequence!('transactions')
   end
 
-  task :all => :environment do
-    import_csv("db/data/customers.csv", Customer)
-    import_csv("db/data/merchants.csv", Merchant)
-    import_csv("db/data/invoices.csv", Invoice)
-    import_csv("db/data/items.csv", Item)
-    import_csv("db/data/invoice_items.csv", InvoiceItem)
-    import_csv("db/data/transactions.csv", Transaction)
-  end
+  task :all => [:customers, :merchants, :invoices, :items, :invoice_items, :transactions]
+  
 end
