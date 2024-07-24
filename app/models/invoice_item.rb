@@ -2,11 +2,11 @@ class InvoiceItem < ApplicationRecord
   belongs_to :item
   belongs_to :invoice
 
-  validates_presence_of :item_id 
-  validates_presence_of :invoice_id
-  validates_numericality_of :quantity
-  validates_numericality_of :unit_price
-  validates_numericality_of :status
+  validates :item_id, presence: true
+  validates :invoice_id, presence: true
+  validates :quantity, presence: true, numericality: true
+  validates :unit_price, presence: true, numericality: true
+  validates :status, presence: true
   
   enum status: {
     "pending": 0,
