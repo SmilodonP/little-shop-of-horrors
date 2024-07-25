@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Merchant Dashboard" do
   before(:each) do
-    @merchant = create(:merchant)
+    @merchant_1 = create(:merchant, name: "Seymore")
+    @merchant_2 = create(:merchant, name: "Audrey")
   end
   
   # User Story 1
@@ -10,7 +11,8 @@ RSpec.describe "Merchant Dashboard" do
     visit "/merchants/#{@merchant.id}/dashboard"
 
       within("#merchant") do 
-        expect(page).to have_content(@merchant.name)
+        expect(page).to have_content(@merchant_1.name)
+        expect(page).to_not have_content(@merchant_2.name)
     end
   end
 

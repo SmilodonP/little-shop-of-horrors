@@ -3,5 +3,7 @@ FactoryBot.define do
     quantity { Faker::Number.between(from:1,to:100) }
     unit_price { Faker::Commerce.price }
     status { Faker::Number.between(from:0,to:2) }
+    invoice { association :invoice }
+    item { association :item }
   end
 end
