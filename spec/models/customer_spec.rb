@@ -23,8 +23,8 @@ RSpec.describe Customer, type: :model do
       invoice_item_1 = create(:invoice_item, quantity: 40, unit_price: 10, item_id: item_1.id, invoice_id: invoice_1.id)
       invoice_item_2 = create(:invoice_item, quantity: 9, unit_price: 10, item_id: item_1.id, invoice_id: invoice_2.id)
 
-      expect(@customer_1.successful_transaction_count).to eq(1)
-      expect(@customer_2.successful_transaction_count).to eq(0)
+      expect(customer_1.successful_transaction_count).to eq(1)
+      expect(customer_2.successful_transaction_count).to eq(0)
     end
   end
 end

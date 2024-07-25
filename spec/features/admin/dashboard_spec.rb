@@ -1,7 +1,3 @@
-# Unsure of file naming 
-# Should this be an index?
-
-
 require "rails_helper"
 
 
@@ -41,6 +37,8 @@ RSpec.describe "Admin Dashboard", type: :feature do
         @invoice_item_4 = create(:invoice_item, quantity: 21, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_4.id)
         @invoice_item_5 = create(:invoice_item, quantity: 1, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_5.id)
         @invoice_item_6 = create(:invoice_item, quantity: 8, unit_price: 5, item_id: @item_2.id, invoice_id: @invoice_6.id)
+        
+        binding.pry
 
         # visit "/admin"
         visit admin_index_path
@@ -88,6 +86,11 @@ RSpec.describe "Admin Dashboard", type: :feature do
           # conducted
 
           # Might need to create a helper method in customer model to find these and call here
+
+          # Return customer names
+          # Need 5 customers with most successful transactions
+          # Need transaction count as well
+          
 
         end
     
