@@ -8,7 +8,7 @@ RSpec.describe "Merchant Dashboard" do
   
   # User Story 1
   it "Has the name of the merchant when I visit that merchants dashboard" do
-    visit "/merchants/#{@merchant.id}/dashboard"
+    visit "/merchants/#{@merchant_1.id}/dashboard"
 
       within("#merchant") do 
         expect(page).to have_content(@merchant_1.name)
@@ -18,13 +18,14 @@ RSpec.describe "Merchant Dashboard" do
 
   # User Story 2
   it "Has a link to the merchant items index" do
-    visit "/merchants/#{@merchant.id}/dashboard"
+    visit "/merchants/#{@merchant_1.id}/dashboard"
 
     expect(page).to have_link("Items Index")
   end
 
   it "Has a link to the merchant invoices index" do
-    save_and_open_page
+    visit "/merchants/#{@merchant_1.id}/dashboard"
+    #save_and_open_page
     expect(page).to have_link("Invoices Index")
   end
 end
