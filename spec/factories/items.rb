@@ -4,6 +4,6 @@ FactoryBot.define do
     description { Faker::Commerce.material }
     unit_price { Faker::Number.between(from:100,to:1000000) }
     merchant { association :merchant }
-
+    merchant { association :merchant }
   end
 end
