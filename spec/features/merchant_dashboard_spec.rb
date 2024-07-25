@@ -28,7 +28,7 @@ RSpec.describe "Merchant Dashboard" do
     @invoice_14 = create(:invoice, merchant: @merchant_1, customer: @customer_6)
     @invoice_15 = create(:invoice, merchant: @merchant_1, customer: @customer_6)
 
-
+    
     
     
 
