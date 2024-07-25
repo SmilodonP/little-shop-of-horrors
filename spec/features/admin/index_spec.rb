@@ -65,30 +65,34 @@ RSpec.describe "Admin Dashboard", type: :feature do
           expect(page).to have_link("Merchants")
           expect(page).to have_link("Invoices")
         end
+      end
+    end
+  end
 
-        it "displays the names of top 5 customers with successful purchases" do
-          # 21. Admin Dashboard Statistics - Top Customers
+  describe "US 21" do
+    describe "when I visit the Admin Dasboard"
+      it "displays the names of top 5 customers with successful purchases" do
+        # 21. Admin Dashboard Statistics - Top Customers
 
-          # As an admin,
-          # When I visit the admin dashboard (/admin)
-          # Then I see the names of the top 5 customers
-          within ".top_5_customers" do
-            expect(page).to_not have_content(@customer_5.name)
+        # As an admin,
+        # When I visit the admin dashboard (/admin)
+        # Then I see the names of the top 5 customers
+        within ".top_5_customers" do
+          expect(page).to_not have_content(@customer_5.name)
 
-            expect(page).to have_content("1. #{@customer_1.name}-#{@customer_1.successful_transaction_count} purchases")
-            expect(page).to have_content("2. #{@customer_4.name}-#{@customer_4.successful_transaction_count} purchases")
-            expect(page).to have_content("3. #{@customer_3.name}-#{@customer_3.successful_transaction_count} purchases")
-            expect(page).to have_content("4. #{@customer_2.name}-#{@customer_2.successful_transaction_count} purchases")
-            expect(page).to have_content("5. #{@customer_6.name}-#{@customer_6.successful_transaction_count} purchases")
-          end
-          # who have conducted the largest number of successful transactions
-          # And next to each customer name I see the number of successful transactions they have
-          # conducted
-
-          # Might need to create a helper method in customer model to find these and call here
-
+          expect(page).to have_content("1. #{@customer_1.name}-#{@customer_1.successful_transaction_count} purchases")
+          expect(page).to have_content("2. #{@customer_4.name}-#{@customer_4.successful_transaction_count} purchases")
+          expect(page).to have_content("3. #{@customer_3.name}-#{@customer_3.successful_transaction_count} purchases")
+          expect(page).to have_content("4. #{@customer_2.name}-#{@customer_2.successful_transaction_count} purchases")
+          expect(page).to have_content("5. #{@customer_6.name}-#{@customer_6.successful_transaction_count} purchases")
         end
-    
+        # who have conducted the largest number of successful transactions
+        # And next to each customer name I see the number of successful transactions they have
+        # conducted
+
+        # Might need to create a helper method in customer model to find these and call here
+
+      end
     end
   end
 end
