@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :item do
     name { Faker::Name.name }
-    unit price { { Faker::Commerce.price } }
+    description { Faker::Commerce.material }
+    unit price { Faker::Number.between(from:100,to:1000000) }
+    merchant { association :merchant }
+
   end
 end
