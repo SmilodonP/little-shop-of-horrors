@@ -1,9 +1,7 @@
 # Unsure of file naming 
 # Should this be an index?
 
-
 require "rails_helper"
-
 
 RSpec.describe "Admin Dashboard", type: :feature do
   describe "User Story #19" do
