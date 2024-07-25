@@ -3,3 +3,6 @@
 <section id="merchant">
   <h3><%= @merchant.name %></h3>
 </section>
+
+<%= link_to "Items Index", "/merchants/#{@merchant.id}/items" %>
+<%= link_to "Invoices Index", "/merchants/#{@merchant.id}/invoices" %>
