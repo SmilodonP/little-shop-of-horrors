@@ -3,10 +3,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :admin, only: [:index]
-
 get "/merchants/:id/dashboard", to: "merchants#dashboard"
 get "/merchants/:id/items", to: "items#index"
 get "/merchants/:id/invoices", to: "invoices#index"
-
+  resources :admin, only: [:index]
 end
