@@ -9,3 +9,10 @@
   <% end %>
 </section>
 
+<section class="incomplete_invoices">
+<h3>Incomplete Invoices </h3>
+  <% @incomplete_invoices.each do |incomplete_invoice| %>
+    <p><%= link_to "#{incomplete_invoice.id}", admin_invoice_path(incomplete_invoice.id) %>
+  <% end %>
+</section>
+
