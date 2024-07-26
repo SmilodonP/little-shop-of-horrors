@@ -5,12 +5,12 @@ RSpec.describe "Merchant Dashboard" do
     @merchant_1 = create(:merchant, name: "Seymore")
     @merchant_2 = create(:merchant, name: "Audrey")
 
-    @customer_1 = create(:customer, first_name: "Under" last_name: "taker")
-    @customer_2 = create(:customer, first_name: "Man" last_name: "kind")
-    @customer_3 = create(:customer, first_name: "Mick" last_name: "Foley")
-    @customer_4 = create(:customer, first_name: "Cactus" last_name: "Jack")
-    @customer_5 = create(:customer, first_name: "Dude" last_name: "Love")
-    @customer_6 = create(:customer, first_name: "Rick" last_name: "Flair")
+    @customer_1 = create(:customer, first_name: "Under", last_name: "taker")
+    @customer_2 = create(:customer, first_name: "Man", last_name: "kind")
+    @customer_3 = create(:customer, first_name: "Mick", last_name: "Foley")
+    @customer_4 = create(:customer, first_name: "Cactus", last_name: "Jack")
+    @customer_5 = create(:customer, first_name: "Dude", last_name: "Love")
+    @customer_6 = create(:customer, first_name: "Rick", last_name: "Flair")
 
     @invoice_1 = create(:invoice, customer: @customer_2)
     @invoice_2 = create(:invoice, customer: @customer_3)
@@ -28,24 +28,21 @@ RSpec.describe "Merchant Dashboard" do
     @invoice_14 = create(:invoice, customer: @customer_6)
     @invoice_15 = create(:invoice, customer: @customer_6)
 
-    @transaction_1 = create(:transaction, invoice: @invoice_1)
-    @transaction_2 = create(:transaction, invoice: @invoice_2)
-    @transaction_3 = create(:transaction, invoice: @invoice_3)
-    @transaction_4 = create(:transaction, invoice: @invoice_4)
-    @transaction_5 = create(:transaction, invoice: @invoice_5)
-    @transaction_6 = create(:transaction, invoice: @invoice_6)
-    @transaction_7 = create(:transaction, invoice: @invoice_7)
-    @transaction_8 = create(:transaction, invoice: @invoice_8)
-    @transaction_9 = create(:transaction, invoice: @invoice_9)
-    @transaction_10 = create(:transaction, invoice: @invoice_10)
-    @transaction_11 = create(:transaction, invoice: @invoice_11)
-    @transaction_12 = create(:transaction, invoice: @invoice_12)
-    @transaction_13 = create(:transaction, invoice: @invoice_13)
-    @transaction_14 = create(:transaction, invoice: @invoice_14)
-    @transaction_15 = create(:transaction, invoice: @invoice_15)
-    
-    
-
+    @transaction_1 = create(:transaction, invoice: @invoice_1, result: 1)
+    @transaction_2 = create(:transaction, invoice: @invoice_2, result: 1)
+    @transaction_3 = create(:transaction, invoice: @invoice_3, result: 1)
+    @transaction_4 = create(:transaction, invoice: @invoice_4, result: 1)
+    @transaction_5 = create(:transaction, invoice: @invoice_5, result: 0)
+    @transaction_6 = create(:transaction, invoice: @invoice_6, result: 1)
+    @transaction_7 = create(:transaction, invoice: @invoice_7, result: 1)
+    @transaction_8 = create(:transaction, invoice: @invoice_8, result: 1)
+    @transaction_9 = create(:transaction, invoice: @invoice_9, result: 1)
+    @transaction_10 = create(:transaction, invoice: @invoice_10, result: 0)
+    @transaction_11 = create(:transaction, invoice: @invoice_11, result: 1)
+    @transaction_12 = create(:transaction, invoice: @invoice_12, result: 1)
+    @transaction_13 = create(:transaction, invoice: @invoice_13, result: 1)
+    @transaction_14 = create(:transaction, invoice: @invoice_14, result: 1)
+    @transaction_15 = create(:transaction, invoice: @invoice_15, result: 1)
   end
   
   # User Story 1
@@ -53,8 +50,8 @@ RSpec.describe "Merchant Dashboard" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
       within("#merchant") do 
-        expect(page).to have_content(@merchant_1.name)
-        expect(page).to_not have_content(@merchant_2.name)
+        expect(page).to have_content("#{@customer_1.first_name} #{@customer_1.last_name}")
+        expect(page).to_not have_content("#{@merchant_2.first_name} #{@customer_2.last_name}")
     end
   end
 
@@ -67,10 +64,22 @@ RSpec.describe "Merchant Dashboard" do
 
   it "Has a link to the merchant invoices index" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
-    #save_and_open_page
+    
     expect(page).to have_link("Invoices Index")
   end
 
   # User Story 3
-  
+  it "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
+    visit "/merchants/#{@merchant_1.id}/dashboard"
+
+    within "top_customers" do
+      expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
+      expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
+      expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
+      expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 2")
+      expect(page).to have_content("#{@customer_2.first_name} #{@customer_2.last_name}: 1")
+      
+      expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
+    end
+  end
 end
