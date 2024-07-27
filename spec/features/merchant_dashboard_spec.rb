@@ -56,12 +56,13 @@ RSpec.describe "Merchant Dashboard" do
   end
 
   # User Story 2
+  it "Has a link to the merchant items index" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
     expect(page).to have_link("Items Index")
   end
 
-  it "Has a link to the merchant invoices index" do
+  it "Has a link to the invoices index" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
     
     expect(page).to have_link("Invoices Index")
