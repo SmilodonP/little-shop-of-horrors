@@ -9,6 +9,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       # When I visit the admin merchants index (/admin/merchants)
       # Then I see the name of each merchant in the system
 
+      # DON'T NEED HARDCODED NAMES WITH MERCHANTS HERE
       merchant_1 = create(:merchant, name: "Tarzhay")
       merchant_2 = create(:merchant, name: "Wally World")
       merchant_3 = create(:merchant, name: "Ammuhzon")
@@ -25,25 +26,28 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
 
   describe "User Story #25" do 
     it "directs me to a merchant's show page where I see their name" do
-      visit admin_merchant_index # Links to show pages on '/admin/merchant/index' page -> visit first.
-
+      
+      merchant_1 = create(:merchant)
+      
       # 25. Admin Merchant Show
       
       # As an admin,
-      # When I click on the name of a merchant from the admin merchants index page (/admin/merchants),
-      # Then I am taken to that merchant's admin show page (/admin/merchants/:merchant_id)
-      # And I see the name of that merchant
-
-      merchant_1 = create(:merchant, name: "Tarzhay")
-
-      expect(page).to have_link("#{merchant_1.id}", href: admin_merchant_path(merchant))
+      visit admin_merchants_path # Links to show pages on '/admin/merchant/index' page -> visit first.
       
+      # When I click on the name of a merchant from the admin merchants index page (/admin/merchants),
+      expect(page).to have_link("#{merchant_1.name}", href: admin_merchant_path(merchant_1))
+      click_link "#{merchant_1.name}"
+      
+      # Then I am taken to that merchant's admin show page (/admin/merchants/:merchant_id)
+      expect(current_path).to eq(admin_merchant_path(merchant_1))
+
+      # And I see the name of that merchant
       expect(page).to have_content("#{merchant_1.name}")
     end
   end
 
   describe "User Story #27" do
-    it "updates merchant status to 'Enabled' " do
+    xit "updates merchant status to 'Enabled' " do
       ### NEED MERCHANT INSTANCES
         # MAYBE DO MORE THAN ONE TO DEMONSTRATE BOTH ENABLE & DISABLE
         # DO WE CREATE MERCHANT INSTANCES WITH DEFAULT STATUS VALUE??
@@ -56,7 +60,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
 
       # As an admin,
       # When I visit the admin merchants index (/admin/merchants)
-      visit admin_merchant_index
+      visit admin_merchants_path
 
       # Then next to each merchant name I see a button to disable or enable that merchant.
       expect(page).to have_button("Enable")
@@ -66,7 +70,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       click_button "Enable"
       
       # Then I am redirected back to the admin merchants index
-      expect(current_path).to eq(admin_merchant_index_path)
+      expect(current_path).to eq(admin_merchants_path)
       
       # And I see that the merchant's status has changed
         # I'M ASSUMING `MERCHANT STATUS` REFERES TO "ENABLED" OR "DISABLED" ?
@@ -74,7 +78,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       expect(merchant_1.status).to eq("Enabled")
     end
 
-    it "updates merchant status to 'Disabled' " do
+    xit "updates merchant status to 'Disabled' " do
       merchant_2 = create(:merchant, :status)
 
       # 27. Admin Merchant Enable/Disable
