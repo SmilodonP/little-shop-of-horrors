@@ -1,7 +1,7 @@
 <h1>Merchants</h1>
 
 <section class="merchants_in_system">
-  <%@merchants.each do |merchant|%>
+  <% @merchants.each do |merchant| %>
     <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
-  <%end%>
+  <% end %>
 </section>
