@@ -6,12 +6,13 @@ class Merchant < ApplicationRecord
 
   def top_customers
     Customer
-    .select("customers.id, customers.first_name, customers.last_name, count(transactions.id) as top_customers")
-    .joins(invoices: { invoice_items: :item})
-    .joins('INNER JOIN transactions ON transactions.invoice_id = invoices.id')
+    .select("customers.id, customers.first_name, customers.last_name, count(transactions.id) as transaction_count")
+    .joins(invoices: :transactions)
+    .joins("INNER JOIN transactions ON transactions.invoice_id = invoices.id")
+    .joins("INNER JOIN items ON items.id = invoice_items.item_id")
     .where(transactions: { result: 1 }, items: { merchant_id: self.id })
     .group("customers.id, customers.first_name, customers.last_name")
-    .order("top_customers desc")
+    .order("transaction_count desc")
     .limit(5)
   end
 

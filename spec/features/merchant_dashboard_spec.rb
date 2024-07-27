@@ -78,7 +78,7 @@ RSpec.describe "Merchant Dashboard" do
   end
 
   # User Story 3
-  xit "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
+  it "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
     within "#top_customers" do
@@ -106,4 +106,6 @@ RSpec.describe "Merchant Dashboard" do
       expect(page).to have_link("Invoice #{@invoice_14}")
     end
   end
+
+  
 end
