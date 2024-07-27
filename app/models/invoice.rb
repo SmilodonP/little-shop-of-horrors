@@ -15,6 +15,6 @@ class Invoice < ApplicationRecord
 
   def self.unshipped_invoices
     # select(:id).joins(:invoice_items).where("invoice_items.status != 2")
-    select(:id).joins(:invoice_items).where.not(invoice_items: {status: 2})
+    select("invoices.id, invoices.created_at").joins(:invoice_items).where.not(invoice_items: {status: 2}).order("invoices.created_at")
   end
 end
