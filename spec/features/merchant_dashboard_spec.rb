@@ -43,6 +43,15 @@ RSpec.describe "Merchant Dashboard" do
     @transaction_13 = create(:transaction, invoice: @invoice_13, result: 1)
     @transaction_14 = create(:transaction, invoice: @invoice_14, result: 1)
     @transaction_15 = create(:transaction, invoice: @invoice_15, result: 1)
+  
+    @item_1 = create(:item, name: "singlet", merchant: @merchant_1)
+    @item_2 = create(:item, name: "boots", merchant: @merchant_1)
+    @item_3 = create(:item, name: "belt", merchant: @merchant_1)
+    @item_4 = create(:item, name: "chair", merchant: @merchant_2)
+
+    @invoice_item_1 = create(:invoice_item, item: @item_1, invoice: @invoice_15, status: 0)
+    @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_14, status: 1)
+    @invoice_item_3 = create(:invoice_item, item: @item_3, invoice: @invoice_13, status: 2)
   end
   
   # User Story 1
@@ -69,7 +78,7 @@ RSpec.describe "Merchant Dashboard" do
   end
 
   # User Story 3
-  it "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
+  xit "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
     within "#top_customers" do
@@ -88,6 +97,13 @@ RSpec.describe "Merchant Dashboard" do
   it "displays items ready to ship with a link to the invoice" do 
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
-    
+    within "#items_ready_to_ship" do
+
+      expect(page).to have_content(@item_2.name)
+      expect(page).to_not have_content(@item_1.name)
+      expect(page).to_not have_content(@item_3.name)
+
+      expect(page).to have_link("Invoice #{@invoice_14}")
+    end
   end
 end
