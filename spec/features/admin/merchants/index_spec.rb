@@ -9,7 +9,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       # When I visit the admin merchants index (/admin/merchants)
       # Then I see the name of each merchant in the system
 
-      visit admin_merchant_index_path # I am not 100% on this routing
+      visit admin_merchant_path # I am not 100% on this routing
 
       merchant_1 = create(:merchant, name: "Tarzhay")
       merchant_2 = create(:merchant, name: "Wally World")
