@@ -10,8 +10,8 @@
 <section id="top_customers">
   <h4> Top 5 Customers </h4>
   <ul>
-    <% @top_customers.each do |customer, count| %>
-      <li><%= "#{customer.first_name} #{customer.last_name}: #{count}" %></li>
+    <% @top_customers.each do |customer| %>
+      <li><%= "#{customer.first_name} #{customer.last_name}: #{customer.top_customers}" %></li>
     <% end %>
   </ul>
 </section>

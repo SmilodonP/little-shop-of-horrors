@@ -72,7 +72,8 @@ RSpec.describe "Merchant Dashboard" do
   it "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
-    within "top_customers" do
+    within "#top_customers" do
+    #save_and_open_page
       expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
       expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
       expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
@@ -81,5 +82,12 @@ RSpec.describe "Merchant Dashboard" do
       
       expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
     end
+  end
+
+  # User Story 4
+  it "displays items ready to ship with a link to the invoice" do 
+    visit "/merchants/#{@merchant_1.id}/dashboard"
+
+    
   end
 end
