@@ -48,8 +48,8 @@ RSpec.describe "Admin Dashboard", type: :feature do
     it "displays links to merchant and admin invoices indices" do
       visit admin_index_path
 
-      expect(page).to have_link("Merchants")
-      expect(page).to have_link("Invoices")
+      expect(page).to have_link("Merchants") # Is this robust enough or should 
+      expect(page).to have_link("Invoices")    # these be liketests for US#22?
     end
 
     it "displays the names of top 5 customers with successful purchases" do
