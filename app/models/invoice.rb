@@ -12,4 +12,9 @@ class Invoice < ApplicationRecord
     "cancelled": 1,
     "completed": 2
   }
+
+  def self.unshipped_invoices
+    # select(:id).joins(:invoice_items).where("invoice_items.status != 2")
+    select(:id).joins(:invoice_items).where.not(invoice_items: {status: 2})
+  end
 end

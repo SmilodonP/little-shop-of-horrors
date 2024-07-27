@@ -5,15 +5,11 @@ class Customer < ApplicationRecord
   validates_presence_of :first_name
   validates_presence_of :last_name
 
-  def successful_transaction_count
-    Customer.transactions
-    # Customer.select("customers.id, count(transactions.result) as poop").joins(:invoices, :transactions).where("transactions.result = 1").group(:result).order(:poop).limit(5)
-    # select customers.id, count(transactions.result) as poop
-    # from customers
-    # inner join invoices on customers.id = invoices.customer_id 
-    # inner join transactions on invoices.id = transactions.invoice_id 
-    # WHERE transactions.result = 1
-    # group by customers.id 
-    # order by poop desc;
+  def self.top_5_customers
+    self.select("customers.id, customers.first_name, customers.last_name, count(transactions.result) as purchases").joins(:transactions).group("customers.id").where("transactions.result = 1").order(purchases: :desc).limit(5)
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 end
