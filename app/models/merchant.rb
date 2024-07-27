@@ -14,4 +14,10 @@ class Merchant < ApplicationRecord
     .order("top_customers desc")
     .limit(5)
   end
+
+  def items_ready_to_ship
+    items.joins(:invoice_items)
+         .where(invoice_items: { status: 1 })
+         .distinct
+  end
 end
