@@ -1,6 +1,7 @@
 <h1>Merchants</h1>
 
-<%@merchants.each do |merchant|%>
-  
-
-<%end%>
+<section class="merchants_in_system">
+  <%@merchants.each do |merchant|%>
+    <%= merchant.name %>
+  <%end%>
+</section>

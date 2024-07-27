@@ -8,10 +8,11 @@ Rails.application.routes.draw do
   get "/merchants/:id/invoices", to: "invoices#index"
 
   resources :admin, only: [:index]
+
   namespace :admin do
     resources :invoices, only: [:show]
+    resources :merchants, only: [:index]
   end
-  namespace :admin do 
-    resources :merchants, only: [:index, :show]
-  end
+
+
 end
