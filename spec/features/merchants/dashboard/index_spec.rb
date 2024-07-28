@@ -59,7 +59,7 @@ RSpec.describe "Merchant Dashboard" do
     describe "when I visit my merchant dashboard," do
       # User Story 1
       it "I see my merchant name" do
-        visit merchant_path(@merchant_1)
+        visit merchant_dashboard_index_path(@merchant_1)
 
         within("#merchant") do 
           expect(page).to have_content("Name: #{ @merchant_1.name }") 
@@ -69,7 +69,7 @@ RSpec.describe "Merchant Dashboard" do
 
       # User Story 2
       it "I see a link to my merchant items index," do
-        visit merchant_path(@merchant_1)
+        visit merchant_dashboard_index_path(@merchant_1)
         within("#merchant_links") do
           expect(page).to have_link("Items Index")
         end
