@@ -47,14 +47,35 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
   end
 
   describe "User Story #27" do
-    xit "updates merchant status to 'Enabled' " do
-      ### NEED MERCHANT INSTANCES
-        # MAYBE DO MORE THAN ONE TO DEMONSTRATE BOTH ENABLE & DISABLE
-        # DO WE CREATE MERCHANT INSTANCES WITH DEFAULT STATUS VALUE??
-          # LIKELY USE ENUMS AS WELL FOR THAT
-            # PROBABLY NEED A MIGRATION FOR THIS
+    it "updates merchant status to 'Enabled' " do
+
+      @merchant_1 = create(:merchant, status: 0)
+
+      # 27. Admin Merchant Enable/Disable
+
+      # As an admin,
+      # When I visit the admin merchants index (/admin/merchants)
+      visit admin_merchants_path
       
-      merchant_1 = create(:merchant, :status)
+      # Then next to each merchant name I see a button to disable or enable that merchant.
+      expect(page).to have_button("Enable")
+      expect(page).to have_button("Disable")
+
+      # When I click this button
+      # within "merchant-#{merchant_1.id}" do
+      click_button "Enable"
+      # end
+
+      # Then I am redirected back to the admin merchants index
+      expect(current_path).to eq(admin_merchants_path)
+      @merchant_1.reload
+
+      # And I see that the merchant's status has changed
+      expect(@merchant_1.status).to eq("enabled")
+    end
+
+    it "updates merchant status to 'Disabled' " do
+      @merchant_2 = create(:merchant, status: 1)
 
       # 27. Admin Merchant Enable/Disable
 
@@ -67,38 +88,14 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       expect(page).to have_button("Disable")
 
       # When I click this button
-      click_button "Enable"
-      
+      click_button "Disable"
+
       # Then I am redirected back to the admin merchants index
       expect(current_path).to eq(admin_merchants_path)
-      
+      @merchant_2.reload
+
       # And I see that the merchant's status has changed
-        # I'M ASSUMING `MERCHANT STATUS` REFERES TO "ENABLED" OR "DISABLED" ?
-          # I think this requires a migration
-      expect(merchant_1.status).to eq("Enabled")
-    end
-
-    xit "updates merchant status to 'Disabled' " do
-      merchant_2 = create(:merchant, :status)
-
-      # 27. Admin Merchant Enable/Disable
-
-      # As an admin,
-      # When I visit the admin merchants index (/admin/merchants)
-      visit admin_merchant_index
-
-      # Then next to each merchant name I see a button to disable or enable that merchant.
-      expect(page).to have_button("Enable")
-      expect(page).to have_button("Disable")
-
-      # When I click this button
-      click_button "Disabled"
-      
-      # Then I am redirected back to the admin merchants index
-      expect(current_path).to eq(admin_merchant_index_path)
-      
-      # And I see that the merchant's status has changed
-      expect(merchant_2.status).to eq("Disabled")
+      expect(@merchant_2.status).to eq("disabled")
     end
   end
 end
