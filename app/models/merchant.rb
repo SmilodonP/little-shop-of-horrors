@@ -1,15 +1,19 @@
 class Merchant < ApplicationRecord
-  validates :name, presence: true
-
   has_many :items
   has_many :invoice_items, through: :items
-  has_many :invoices, through: invoice_items
+  has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
-  has_many :transactions, through: :invoice_items
-  
-  # def top_customers
-  #   Customer.select("customers.id, customers.first_name, customers.last_name, count(transactions.id) as top_customers").joins(invoices: :transactions).where(transactions: {result: 1}, invoices: {merchant_id: 1}).group("customers.id, customers.first_name, customers.last_name").order("top_customers desc").limit(5)
-  # end
-  @top_5_customers = Customer.top_5_customers
 
+  def top_customers
+    Customer
+      .select("customers.id, customers.first_name, customers.last_name, COUNT(t1.id) AS transaction_count")
+      .joins('INNER JOIN invoices ON invoices.customer_id = customers.id')
+      .joins('INNER JOIN transactions t1 ON t1.invoice_id = invoices.id')
+      .joins('INNER JOIN invoice_items ON invoices.id = invoice_items.invoice_id')
+      .joins('INNER JOIN items ON items.id = invoice_items.item_id')
+      .where(t1: { result: 1 }, items: { merchant_id: self.id })
+      .group('customers.id, customers.first_name, customers.last_name')
+      .order('transaction_count DESC')
+      .limit(5)
+  end
 end
