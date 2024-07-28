@@ -1,7 +1,7 @@
 <h1> Merchant Dashboard </h1>
 
 <section id="merchant">
-  <h3><%= "Name: @merchant.name" %></h3>
+  <h3><%= "Name: "Name: #{@merchant.name"}" %></h3>
   <%= link_to "Items Index", "/merchants/#{@merchant.id}/items" %>
   <%= link_to "Invoices Index", "/merchants/#{@merchant.id}/invoices" %>  
 </section>
@@ -12,5 +12,26 @@
             <%= "#{customer.first_name} #{customer.last_name}: #{count}" %></nl>
           <% end %>
 </section>
+<section id="merchant_links">
+  <%= link_to "Items Index", "/merchants/#{@merchant.id}/items" %>
+  <%= link_to "Invoices Index", "/merchants/#{@merchant.id}/invoices" %>
+</section>
 
+
+# <section id="top_customers">
+#   <h4> "Top 5 Customers" </h4>
+#   <%= @merchant.top_customers %>
+# </section>
+
+<section id="items_ready_to_ship">
+  <h4> Items Ready to Ship </h4>
+  <ul>
+    <% @items_ready_to_ship.each do |item| %>
+      <li>
+        <%= item.name %>
+        <%= link_to "Invoice #{item.invoice.id}", "/invoices/#{item.invoice.id}" %>
+      </li>
+    <% end %>
+  </ul>
+</section> 
 

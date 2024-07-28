@@ -43,6 +43,15 @@ RSpec.describe "Merchant Dashboard" do
     @transaction_13 = create(:transaction, invoice: @invoice_13, result: 1)
     @transaction_14 = create(:transaction, invoice: @invoice_14, result: 1)
     @transaction_15 = create(:transaction, invoice: @invoice_15, result: 1)
+  
+    @item_1 = create(:item, name: "singlet", merchant: @merchant_1)
+    @item_2 = create(:item, name: "boots", merchant: @merchant_1)
+    @item_3 = create(:item, name: "belt", merchant: @merchant_1)
+    @item_4 = create(:item, name: "chair", merchant: @merchant_2)
+
+    @invoice_item_1 = create(:invoice_item, item: @item_1, invoice: @invoice_15, status: 0)
+    @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_14, status: 1)
+    @invoice_item_3 = create(:invoice_item, item: @item_3, invoice: @invoice_13, status: 2)
   end
   context "As a merchant," do
     describe "when I visit my merchant dashboard," do
@@ -68,11 +77,11 @@ RSpec.describe "Merchant Dashboard" do
         
         expect(page).to have_link("Invoices Index")
       end
-
+      
       # User Story 3
       it "and I see the names of the 5 customers with whom I have the most completed transactions, as well as the number of each customer's successful transactions." do
         visit "/merchants/#{@merchant_1.id}/dashboard"
-
+        save_and_open_page
         within "top_customers" do
           expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
           expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
@@ -85,4 +94,20 @@ RSpec.describe "Merchant Dashboard" do
       end
     end
   end
+
+
+  # User Story 4
+  it "displays items ready to ship with a link to the invoice" do 
+    visit "/merchants/#{@merchant_1.id}/dashboard"
+
+    within "#items_ready_to_ship" do
+
+      expect(page).to have_content(@item_2.name)
+      expect(page).to_not have_content(@item_1.name)
+      expect(page).to_not have_content(@item_3.name)
+
+      expect(page).to have_link("Invoice #{@invoice_14}")
+    end
+  end
+
 end
