@@ -12,11 +12,17 @@ class Merchant < ApplicationRecord
     .joins('INNER JOIN transactions ON items.id = invoice_items.item_id')
     .where(transactions: { result: 1 }, items: { merchant_id: self.id })
     .group("customers.id, customers.first_name, customers.last_name")
-    .order("top_customers desc")
+    .order("transaction_count desc")
     .limit(5)
 
     puts "#{customer.first_name} #{customer.last_name}: #{customer.transaction_count}"
   end
-  
-  
 end 
+
+  def items_ready_to_ship
+    items.joins(:invoice_items)
+         .where(invoice_items: { status: 1 })
+         .distinct
+  end
+end
+
