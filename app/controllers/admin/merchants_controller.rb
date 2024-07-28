@@ -1,6 +1,8 @@
 class Admin::MerchantsController < ApplicationController 
   def index
+    # binding.pry
     @merchants = Merchant.all
+    # binding.pry
   end
 
   def show
