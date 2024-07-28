@@ -5,7 +5,7 @@ RSpec.describe "Merchant Dashboard" do
     @merchant_1 = create(:merchant, name: "Seymore")
     @merchant_2 = create(:merchant, name: "Audrey")
 
-    @customer_1 = create(:customer, first_name: "Under", last_name: "taker")
+    @customer_1 = create(:customer, first_name: "The", last_name: "Undertaker")
     @customer_2 = create(:customer, first_name: "Man", last_name: "kind")
     @customer_3 = create(:customer, first_name: "Mick", last_name: "Foley")
     @customer_4 = create(:customer, first_name: "Cactus", last_name: "Jack")
@@ -53,45 +53,48 @@ RSpec.describe "Merchant Dashboard" do
     @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_14, status: 1)
     @invoice_item_3 = create(:invoice_item, item: @item_3, invoice: @invoice_13, status: 2)
   end
-  
-  # User Story 1
-  it "Has the name of the merchant when I visit that merchants dashboard" do
-    visit "/merchants/#{@merchant_1.id}/dashboard"
+  context "As a merchant," do
+    describe "when I visit my merchant dashboard," do
+      # User Story 1
+      it "I see my merchant name" do
+        visit "/merchants/#{@merchant_1.id}/dashboard"
 
-      within("#merchant") do 
-        expect(page).to have_content("#{@merchant_1.name}")
-        expect(page).to_not have_content("#{@merchant_2.name}")
-    end
-  end
+        within("#merchant") do 
+          expect(page).to have_content("Name: #{ @merchant_1.name }") 
+          expect(page).to_not have_content("#{ @merchant_2.name }")
+        end
+      end
 
-  # User Story 2
-  it "Has a link to the merchant items index" do
-    visit "/merchants/#{@merchant_1.id}/dashboard"
+      # User Story 2
+      it "I see a link to my merchant items index," do
+        visit "/merchants/#{@merchant_1.id}/dashboard"
 
-    expect(page).to have_link("Items Index")
-  end
+        expect(page).to have_link("Items Index")
+      end
 
-  it "Has a link to the invoices index" do
-    visit "/merchants/#{@merchant_1.id}/dashboard"
-    
-    expect(page).to have_link("Invoices Index")
-  end
-
-  # User Story 3
-  it "displays the names of the top 5 customers and next to their name it shows the number of successful transactions" do
-    visit "/merchants/#{@merchant_1.id}/dashboard"
-
-    within "#top_customers" do
-    #save_and_open_page
-      expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
-      expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
-      expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
-      expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 2")
-      expect(page).to have_content("#{@customer_2.first_name} #{@customer_2.last_name}: 1")
+      it "I see a link to my merchant invoices index," do
+        visit "/merchants/#{@merchant_1.id}/dashboard"
+        
+        expect(page).to have_link("Invoices Index")
+      end
       
-      expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
+      # User Story 3
+      it "and I see the names of the 5 customers with whom I have the most completed transactions, as well as the number of each customer's successful transactions." do
+        visit "/merchants/#{@merchant_1.id}/dashboard"
+        save_and_open_page
+        within "top_customers" do
+          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
+          expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
+          expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
+          expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 2")
+          expect(page).to have_content("#{@customer_2.first_name} #{@customer_2.last_name}: 1")
+          
+          expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
+        end
+      end
     end
   end
+
 
   # User Story 4
   it "displays items ready to ship with a link to the invoice" do 
@@ -107,5 +110,4 @@ RSpec.describe "Merchant Dashboard" do
     end
   end
 
-  
 end
