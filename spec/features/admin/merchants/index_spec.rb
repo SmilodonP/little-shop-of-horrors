@@ -106,7 +106,9 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       @merchant_3 = create(:merchant, status: 0)
 
       visit admin_merchants_path
-save_and_open_page
+
+      save_and_open_page
+      
       within '.enabled' do 
         expect(page).to have_content("Enabled Merchants")
         expect(page).to have_content(@merchant_1.name)
@@ -119,4 +121,63 @@ save_and_open_page
       end
     end
   end
+
+  describe "User Story #29" do
+    before :each do
+      @merchant_1 = create(:merchant)
+      @merchant_2 = create(:merchant)
+      @merchant_3 = create(:merchant)
+      @merchant_4 = create(:merchant)
+      @merchant_5 = create(:merchant)
+      @merchant_6 = create(:merchant)
+
+      visit admin_merchants_path
+    end
+
+
+    # 30. Admin Merchants: Top 5 Merchants by Revenue
+
+    # As an admin,
+    # When I visit the admin merchants index (/admin/merchants)
+    # Then I see the names of the top 5 merchants by total revenue generated
+    within ".top_5_merchants"
+      it "displays the top 5 merchants listed by generated revenue" do
+        # ADD AR QUERY TO MERCHANT MODEL FOR `#top_5_merchants`
+        # `revenue` WILL BE ALIAS TO RETURN 
+
+        # I PRETTY MUCH STOLE THIS FROM US#21 -> UNLESS I'M WAY OFF, I THINK THIS LINES UP
+        expect(page).to have_content("#{@merchant_1.name} - #{Merchant.top_5_merchants[0].revenue} in sales")
+        expect(page).to have_content("#{@merchant_2.name} - #{Merchant.top_5_merchants[1].revenue} in sales")
+        expect(page).to have_content("#{@merchant_3.name} - #{Merchant.top_5_merchants[2].revenue} in sales")
+        expect(page).to have_content("#{@merchant_4.name} - #{Merchant.top_5_merchants[3].revenue} in sales")
+        expect(page).to have_content("#{@merchant_5.name} - #{Merchant.top_5_merchants[4].revenue} in sales")
+      end
+
+      # And I see that each merchant name links to the admin merchant show page for that merchant
+      it "embeds links to show pages via merchant name text for each merchant" do
+
+        expect(page).to have_link("#{@merchant_1.name}", href: admin_merchant_path(@merchant_1))
+        click_link "#{@merchant_1.name}"
+        
+        # Then I am taken to that merchant's admin show page (/admin/merchants/:merchant_id)
+        expect(current_path).to eq(admin_merchant_path(@merchant_1))
+
+        # And I see the name of that merchant
+        expect(page).to have_content("#{@merchant_1.name}")
+      end
+
+      # And I see the total revenue generated next to each merchant name
+      it "displays total generated revenue for each merchant beside their name on their show page" do
+        
+      end
+    end
+  end
+
+
+
+    # Notes on Revenue Calculation:
+    # - Only invoices with at least one successful transaction should count towards revenue
+    # - Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
+    # - Revenue for an invoice item should be calculated as the invoice item unit price multiplied 
+      # by the quantity (do not use the item unit price)
 end
