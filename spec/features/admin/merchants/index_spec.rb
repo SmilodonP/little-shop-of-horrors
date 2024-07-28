@@ -47,14 +47,14 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
   end
 
   describe "User Story #27" do
-    xit "updates merchant status to 'Enabled' " do
+    it "updates merchant status to 'Enabled' " do
       ### NEED MERCHANT INSTANCES
         # MAYBE DO MORE THAN ONE TO DEMONSTRATE BOTH ENABLE & DISABLE
         # DO WE CREATE MERCHANT INSTANCES WITH DEFAULT STATUS VALUE??
           # LIKELY USE ENUMS AS WELL FOR THAT
             # PROBABLY NEED A MIGRATION FOR THIS
       
-      merchant_1 = create(:merchant, :status)
+      merchant_1 = create(:merchant)
 
       # 27. Admin Merchant Enable/Disable
 
@@ -79,13 +79,13 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
     end
 
     xit "updates merchant status to 'Disabled' " do
-      merchant_2 = create(:merchant, :status)
+      merchant_2 = create(:merchant)
 
       # 27. Admin Merchant Enable/Disable
 
       # As an admin,
       # When I visit the admin merchants index (/admin/merchants)
-      visit admin_merchant_index
+      visit admin_merchants_path
 
       # Then next to each merchant name I see a button to disable or enable that merchant.
       expect(page).to have_button("Enable")
@@ -95,7 +95,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       click_button "Disabled"
       
       # Then I am redirected back to the admin merchants index
-      expect(current_path).to eq(admin_merchant_index_path)
+      expect(current_path).to eq(admin_merchants_path)
       
       # And I see that the merchant's status has changed
       expect(merchant_2.status).to eq("Disabled")
