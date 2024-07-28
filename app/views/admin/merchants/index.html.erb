@@ -2,9 +2,12 @@
 
 <section class="merchants_in_system">
   <% @merchants.each do |merchant| %>
-    <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %></p>
-      <p><%= button_to "Disable", admin_merchant_path(merchant, status: :disabled), method: :patch %></p>
-      <p><%= button_to "Enable", admin_merchant_path(merchant, status: :enabled), method: :patch %></p>
+    <div id="merchant-<=merchant.id%>">
+      <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %></p>
+        <%= button_to "Disable", admin_merchant_path(merchant, status: :disabled), method: :patch %>
+        <%= button_to "Enable", admin_merchant_path(merchant, status: :enabled), method: :patch %>
+      </p>
+    </div>
   <% end %>
 </section>
 
