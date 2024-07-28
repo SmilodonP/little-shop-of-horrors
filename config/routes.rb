@@ -11,10 +11,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :invoices, only: [:show]
-    resources :merchants, only: [:show, :edit, :update, :index] do
-      member do
-        patch :change_status
-      end
+    resources :merchants, only: [:show, :edit, :update, :index]
     end
   end
 end
