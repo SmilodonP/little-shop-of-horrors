@@ -7,7 +7,7 @@ class Merchant < ApplicationRecord
   validates :name, presence: true
 
   def top_five_customers
-    self.select("customers.id, customers.first_name, customers.last_name, count(transactions.result) as purchases")
+    Customer.select("customers.id, customers.first_name, customers.last_name, count(transactions.result) as purchases")
           .joins(:transactions)
           .joins("INNER JOIN invoices ON invoices.customer_id = customers.id")
           .joins("INNER JOIN merchants ON merchants.id = invoices.merchant_id")
