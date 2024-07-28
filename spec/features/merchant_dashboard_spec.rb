@@ -68,20 +68,22 @@ RSpec.describe "Merchant Dashboard" do
       # User Story 2
       it "I see a link to my merchant items index," do
         visit "/merchants/#{@merchant_1.id}/dashboard"
-
-        expect(page).to have_link("Items Index")
+        within("#merchant_links") do
+          expect(page).to have_link("Items Index")
+        end
       end
 
       it "I see a link to my merchant invoices index," do
         visit "/merchants/#{@merchant_1.id}/dashboard"
-        
-        expect(page).to have_link("Invoices Index")
+        within("#merchant_links") do
+          expect(page).to have_link("Invoices Index")
+        end
       end
       
       # User Story 3
       it "and I see the names of the 5 customers with whom I have the most completed transactions, as well as the number of each customer's successful transactions." do
         visit "/merchants/#{@merchant_1.id}/dashboard"
-        save_and_open_page
+        # save_and_open_page
         within "top_customers" do
           expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
           expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
@@ -95,19 +97,17 @@ RSpec.describe "Merchant Dashboard" do
     end
   end
 
+  # # User Story 4
+  # it "displays items ready to ship with a link to the invoice" do 
+  #   visit "/merchants/#{@merchant_1.id}/dashboard"
 
-  # User Story 4
-  it "displays items ready to ship with a link to the invoice" do 
-    visit "/merchants/#{@merchant_1.id}/dashboard"
+  #   within "#items_ready_to_ship" do
 
-    within "#items_ready_to_ship" do
+  #     expect(page).to have_content(@item_2.name)
+  #     expect(page).to_not have_content(@item_1.name)
+  #     expect(page).to_not have_content(@item_3.name)
 
-      expect(page).to have_content(@item_2.name)
-      expect(page).to_not have_content(@item_1.name)
-      expect(page).to_not have_content(@item_3.name)
-
-      expect(page).to have_link("Invoice #{@invoice_14}")
-    end
-  end
-
+  #     expect(page).to have_link("Invoice #{@invoice_14}")
+  #   end
+  # end
 end

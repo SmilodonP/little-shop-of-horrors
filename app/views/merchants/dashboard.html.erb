@@ -23,15 +23,15 @@
 #   <%= @merchant.top_customers %>
 # </section>
 
-<section id="items_ready_to_ship">
-  <h4> Items Ready to Ship </h4>
-  <ul>
-    <% @items_ready_to_ship.each do |item| %>
-      <li>
-        <%= item.name %>
-        <%= link_to "Invoice #{item.invoice.id}", "/invoices/#{item.invoice.id}" %>
-      </li>
-    <% end %>
-  </ul>
-</section> 
+# <section id="items_ready_to_ship">
+#   <h4> Items Ready to Ship </h4>
+#   <ul>
+#     <% @items_ready_to_ship.each do |item| %>
+#       <li>
+#         <%= item.name %>
+#         <%= link_to "Invoice #{item.invoice.id}", "/invoices/#{item.invoice.id}" %>
+#       </li>
+#     <% end %>
+#   </ul>
+# </section> 
 

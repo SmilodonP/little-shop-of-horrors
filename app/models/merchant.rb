@@ -17,12 +17,10 @@ class Merchant < ApplicationRecord
 
     puts "#{customer.first_name} #{customer.last_name}: #{customer.transaction_count}"
   end
-end 
 
   def items_ready_to_ship
-    items.joins(:invoice_items)
-         .where(invoice_items: { status: 1 })
-         .distinct
+    items.joins(:invoice_items).where(invoice_items: { status: 1 }).distinct
   end
+
 end
 
