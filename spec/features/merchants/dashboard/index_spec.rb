@@ -76,7 +76,7 @@ RSpec.describe "Merchant Dashboard" do
       end
 
       it "I see a link to my merchant invoices index," do
-        visit merchant_path(@merchant_1)
+        visit merchant_dashboard_index_path(@merchant_1)
         within("#merchant_links") do
           expect(page).to have_link("Invoices Index")
         end
@@ -84,7 +84,7 @@ RSpec.describe "Merchant Dashboard" do
       
       # User Story 3
       it "and I see the names of the 5 customers with whom I have the most completed transactions, as well as the number of each customer's successful transactions." do
-        visit merchant_path(@merchant_1)
+        visit merchant_dashboard_index_path(@merchant_1)
         # save_and_open_page
         within "#top_customers" do
           expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 4")
