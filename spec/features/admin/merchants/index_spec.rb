@@ -98,4 +98,25 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       expect(@merchant_2.status).to eq("disabled")
     end
   end
+
+  describe "User Story #28" do 
+    it "can list merchants in two groups on index page" do 
+      @merchant_1 = create(:merchant, status: 1)
+      @merchant_2 = create(:merchant, status: 1)
+      @merchant_3 = create(:merchant, status: 0)
+
+      visit admin_merchants_path
+save_and_open_page
+      within '.enabled' do 
+        expect(page).to have_content("Enabled Merchants")
+        expect(page).to have_content(@merchant_1.name)
+        expect(page).to have_content(@merchant_2.name)
+      end
+
+      within '.disabled' do 
+        expect(page).to have_content("Disabled Merchants")
+        expect(page).to have_content(@merchant_3.name)
+      end
+    end
+  end
 end
