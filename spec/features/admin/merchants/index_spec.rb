@@ -106,7 +106,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       @merchant_3 = create(:merchant, status: 0)
 
       visit admin_merchants_path
-save_and_open_page
+
       within '.enabled' do 
         expect(page).to have_content("Enabled Merchants")
         expect(page).to have_content(@merchant_1.name)
@@ -116,6 +116,30 @@ save_and_open_page
       within '.disabled' do 
         expect(page).to have_content("Disabled Merchants")
         expect(page).to have_content(@merchant_3.name)
+      end
+    end
+  end
+
+  describe "User Story #29" do 
+    it "can create a new merchant" do
+      visit admin_merchants_path 
+
+      within ".new-merchant" do 
+        expect(page).to have_button("Create Merchant")
+      end
+
+      click_button "Create Merchant"
+
+      expect(current_path).to eq(new_admin_merchant_path)
+
+      fill_in "Name", with: "Curious... Still Curious?"
+      click_on "Create Merchant"
+      merchant = Merchant.last
+
+      expect(current_path).to eq(admin_merchants_path)
+
+      within ".disabled" do 
+        expect(page).to have_content(merchant.name)
       end
     end
   end

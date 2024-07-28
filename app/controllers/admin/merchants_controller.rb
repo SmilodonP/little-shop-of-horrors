@@ -22,13 +22,24 @@ class Admin::MerchantsController < ApplicationController
     else   
       render :edit
     end
+  end
+  
+  def new
+    
+  end
 
-    # if @merchant.update(merchant_params)
-    #   redirect_to admin_merchant_path(@merchant), notice: "GREAT SUCCESS!"
-    # elsif @merchant.update(status: params[:status])
-    #   redirect_to admin_merchants_path
-    # else   
-    #   render :edit
-    # end
+  def create
+    merchant = Merchant.new(merchant_params)
+    if merchant.save
+      redirect_to admin_merchants_path
+    else
+      redirect_to new_admin_merchant_path
+      flash[:alert] = "Error: Enter a name, unkay!"
+    end
+  end 
+
+  private
+  def merchant_params
+    params.permit(:name)
   end
 end
