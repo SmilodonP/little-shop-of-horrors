@@ -4,6 +4,8 @@ class Merchant < ApplicationRecord
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
 
+  validates :name, presence: true
+
   def top_five_customers
     Customer
     .select("customers.id, customers.first_name, customers.last_name, COUNT(t1.id) AS transaction_count")
