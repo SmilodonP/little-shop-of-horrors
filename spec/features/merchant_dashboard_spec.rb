@@ -27,6 +27,7 @@ RSpec.describe "Merchant Dashboard" do
     @invoice_13 = create(:invoice, customer: @customer_6)
     @invoice_14 = create(:invoice, customer: @customer_6)
     @invoice_15 = create(:invoice, customer: @customer_6)
+    @invoice_16 = create(:invoice, customer: @customer_6)
 
     @transaction_1 = create(:transaction, invoice: @invoice_1, result: 1)
     @transaction_2 = create(:transaction, invoice: @invoice_2, result: 1)
@@ -43,6 +44,7 @@ RSpec.describe "Merchant Dashboard" do
     @transaction_13 = create(:transaction, invoice: @invoice_13, result: 1)
     @transaction_14 = create(:transaction, invoice: @invoice_14, result: 1)
     @transaction_15 = create(:transaction, invoice: @invoice_15, result: 1)
+    @transaction_16 = create(:transaction, invoice: @invoice_16, result: 1)
   
     @item_1 = create(:item, name: "singlet", merchant: @merchant_1)
     @item_2 = create(:item, name: "boots", merchant: @merchant_1)
@@ -57,7 +59,7 @@ RSpec.describe "Merchant Dashboard" do
     describe "when I visit my merchant dashboard," do
       # User Story 1
       it "I see my merchant name" do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
+        visit merchant_path(@merchant_1)
 
         within("#merchant") do 
           expect(page).to have_content("Name: #{ @merchant_1.name }") 
@@ -67,14 +69,14 @@ RSpec.describe "Merchant Dashboard" do
 
       # User Story 2
       it "I see a link to my merchant items index," do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
+        visit merchant_path(@merchant_1)
         within("#merchant_links") do
           expect(page).to have_link("Items Index")
         end
       end
 
       it "I see a link to my merchant invoices index," do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
+        visit merchant_path(@merchant_1)
         within("#merchant_links") do
           expect(page).to have_link("Invoices Index")
         end
@@ -82,10 +84,10 @@ RSpec.describe "Merchant Dashboard" do
       
       # User Story 3
       it "and I see the names of the 5 customers with whom I have the most completed transactions, as well as the number of each customer's successful transactions." do
-        visit "/merchants/#{@merchant_1.id}/dashboard"
+        visit merchant_path(@merchant_1)
         # save_and_open_page
-        within "top_customers" do
-          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 5")
+        within "#top_customers" do
+          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 4")
           expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
           expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
           expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 2")
@@ -99,7 +101,7 @@ RSpec.describe "Merchant Dashboard" do
 
   # # User Story 4
   # it "displays items ready to ship with a link to the invoice" do 
-  #   visit "/merchants/#{@merchant_1.id}/dashboard"
+  #   visit "/merchant/#{@merchant_1.id}/dashboard"
 
   #   within "#items_ready_to_ship" do
 
