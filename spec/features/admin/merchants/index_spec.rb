@@ -61,13 +61,14 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       # As an admin,
       # When I visit the admin merchants index (/admin/merchants)
       visit admin_merchants_path
-
       # Then next to each merchant name I see a button to disable or enable that merchant.
       expect(page).to have_button("Enable")
       expect(page).to have_button("Disable")
-
+      
       # When I click this button
-      click_button "Enable"
+      within "#merchant-#{merchant_1.id}" do
+        click_button "Enable"
+      end
       
       # Then I am redirected back to the admin merchants index
       expect(current_path).to eq(admin_merchants_path)
@@ -75,7 +76,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       # And I see that the merchant's status has changed
         # I'M ASSUMING `MERCHANT STATUS` REFERES TO "ENABLED" OR "DISABLED" ?
           # I think this requires a migration
-      expect(merchant_1.status).to eq("Enabled")
+      expect(merchant_1.status).to eq("enabled")
     end
 
     xit "updates merchant status to 'Disabled' " do
