@@ -143,14 +143,21 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
     within ".top_5_merchants"
       it "displays the top 5 merchants listed by generated revenue" do
         # ADD AR QUERY TO MERCHANT MODEL FOR `#top_5_merchants`
-        # `revenue` WILL BE ALIAS TO RETURN 
+        # `revenue` WILL BE ALIAS TO RETURN TOTAL $ AMOUNT
+          # -> (DO WE NEED TO CONVERT FROM PENNIES?)
+
+          # Notes on Revenue Calculation:
+          # - Only invoices with at least one successful transaction should count towards revenue
+          # - Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
+          # - Revenue for an invoice item should be calculated as the invoice item unit price multiplied 
+          # by the quantity (do not use the item unit price)
 
         # I PRETTY MUCH STOLE THIS FROM US#21 -> UNLESS I'M WAY OFF, I THINK THIS LINES UP
-        expect(page).to have_content("#{@merchant_1.name} - #{Merchant.top_5_merchants[0].revenue} in sales")
-        expect(page).to have_content("#{@merchant_2.name} - #{Merchant.top_5_merchants[1].revenue} in sales")
-        expect(page).to have_content("#{@merchant_3.name} - #{Merchant.top_5_merchants[2].revenue} in sales")
-        expect(page).to have_content("#{@merchant_4.name} - #{Merchant.top_5_merchants[3].revenue} in sales")
-        expect(page).to have_content("#{@merchant_5.name} - #{Merchant.top_5_merchants[4].revenue} in sales")
+        expect(page).to have_content("#{@merchant_1.name} - #{Merchant.top_merchant_revenue[0].revenue} in sales")
+        expect(page).to have_content("#{@merchant_2.name} - #{Merchant.top_merchant_revenue[1].revenue} in sales")
+        expect(page).to have_content("#{@merchant_3.name} - #{Merchant.top_merchant_revenue[2].revenue} in sales")
+        expect(page).to have_content("#{@merchant_4.name} - #{Merchant.top_merchant_revenue[3].revenue} in sales")
+        expect(page).to have_content("#{@merchant_5.name} - #{Merchant.top_merchant_revenue[4].revenue} in sales")
       end
 
       # And I see that each merchant name links to the admin merchant show page for that merchant
@@ -168,16 +175,9 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
 
       # And I see the total revenue generated next to each merchant name
       it "displays total generated revenue for each merchant beside their name on their show page" do
-        
+        visit admin_merchant_path(@merchant_1)
+        expect(page).to have_content("#{@merchant_1.name} - Total Revenue $#{@merchant_1.revenue}")
       end
     end
   end
-
-
-
-    # Notes on Revenue Calculation:
-    # - Only invoices with at least one successful transaction should count towards revenue
-    # - Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
-    # - Revenue for an invoice item should be calculated as the invoice item unit price multiplied 
-      # by the quantity (do not use the item unit price)
 end
