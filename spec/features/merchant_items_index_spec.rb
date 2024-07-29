@@ -11,6 +11,7 @@ RSpec.describe "Merchant Dashboard" do
     @item_4 = create(:item, name: "chair", merchant: @merchant_2)
   end
 
+  # User Story 6
   describe "As a merchant" do
     it "shows a list of the names of all my items" do
       visit "/merchants/#{@merchant_1.id}/items"

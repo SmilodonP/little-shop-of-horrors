@@ -104,10 +104,10 @@ RSpec.describe "Merchant Dashboard" do
 
       # User Story 4
       it "displays items ready to ship with a link to the invoice" do 
-        visit merchant_dashboard_index_path(@merchant_1)
-        
+        visit merchant_path(@merchant_1)
+        # save_and_open_page
         within "#items_ready_to_ship" do
-        save_and_open_page
+        
         expect(page).to have_content("Items Ready to Ship")
 
           expect(page).to have_content(@item_2.name)
