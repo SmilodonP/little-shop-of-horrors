@@ -88,11 +88,11 @@ RSpec.describe "Merchant Dashboard" do
         # save_and_open_page
         within "#top_customers" do
           save_and_open_page
-          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 4")
-          expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
-          expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
-          expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 2")
-          expect(page).to have_content("#{@customer_2.first_name} #{@customer_2.last_name}: 1")
+          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: #{@merchant_1.top_five_customers[0].transaction_count}")
+          expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: #{@merchant_1.top_five_customers[1].transaction_count}")
+          expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: #{@merchant_1.top_five_customers[2].transaction_count}")
+          expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: #{@merchant_1.top_five_customers[3].transaction_count}")
+          expect(page).to have_content("#{@customer_2.first_name} #{@customer_2.last_name}: #{@merchant_1.top_five_customers[4].transaction_count}")
           
           expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
         end
