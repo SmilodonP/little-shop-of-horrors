@@ -16,5 +16,10 @@ RSpec.describe "Merchant Dashboard" do
       visit "/merchants/#{@merchant_1.id}/items"
 
       expect(page).to have_content(@item_1.name)
-      
+      expect(page).to have_content(@item_2.name)
+      expect(page).to have_content(@item_3.name)
+      expect(page).to_not have_content(@item_4.name)
+    end
+  end
+
 end
