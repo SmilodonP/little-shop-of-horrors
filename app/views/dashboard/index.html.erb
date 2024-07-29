@@ -15,3 +15,17 @@
   <%= link_to "Items Index", merchant_items_path(@merchant) %>
   <%= link_to "Invoices Index", merchant_invoices_path(@merchant) %>
 </div>
+
+<div id="items_ready_to_ship">
+  <h2>Items Ready to Ship</h2>
+  <ul>
+    <% @items_ready_to_ship.each do |item| %>
+      <% item.invoice_items.where(status: 0).each do |invoice_item| %>
+        <li>
+          <%= item.name %> 
+          <%= link_to "Invoice #{invoice_item.invoice.id}", merchant_invoice_path(@merchant, invoice_item.invoice) %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>

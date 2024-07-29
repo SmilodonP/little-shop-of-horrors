@@ -58,8 +58,8 @@ RSpec.describe "Merchant Dashboard" do
     @invoice_item_5 = create(:invoice_item, item: @item_2, invoice: @invoice_8, status: 1)
     @invoice_item_6 = create(:invoice_item, item: @item_3, invoice: @invoice_6, status: 2)
     @invoice_item_7 = create(:invoice_item, item: @item_3, invoice: @invoice_5, status: 2)
-    @invoice_item_4 = create(:invoice_item, item: @item_1, invoice: @invoice_2, status: 0)
-    @invoice_item_5 = create(:invoice_item, item: @item_2, invoice: @invoice_1, status: 1)
+    @invoice_item_8 = create(:invoice_item, item: @item_1, invoice: @invoice_2, status: 0)
+    @invoice_item_9 = create(:invoice_item, item: @item_2, invoice: @invoice_1, status: 1)
   end
   context "As a merchant," do
     describe "when I visit my merchant dashboard," do
@@ -103,19 +103,32 @@ RSpec.describe "Merchant Dashboard" do
       end
 
       # User Story 4
-      xit "displays items ready to ship with a link to the invoice" do 
-        visit merchant_path(@merchant_1)
-        # save_and_open_page
-        within "#items_ready_to_ship" do
-        
-        expect(page).to have_content("Items Ready to Ship")
 
-          expect(page).to have_content(@item_2.name)
-          expect(page).to_not have_content(@item_1.name)
+#       4. Merchant Dashboard Items Ready to Ship
+
+# As a merchant
+# When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
+# Then I see a section for "Items Ready to Ship"
+# In that section I see a list of the names of all of my items that
+# have been ordered and have not yet been shipped,
+# And next to each Item I see the id of the invoice that ordered my item
+# And each invoice id is a link to my merchant's invoice show page
+      it "displays items ready to ship with a link to the invoice" do 
+        visit merchant_dashboard_index_path(@merchant_1)
+       
+        within "#items_ready_to_ship" do
+          expect(page).to have_content("Items Ready to Ship")
+         
+          expect(page).to have_content(@item_1.name)
+          
+          expect(page).to_not have_content(@item_2.name)
           expect(page).to_not have_content(@item_3.name)
 
-          expect(page).to have_link("Invoice #{@invoice_14.id}")
           expect(page).to have_link("Invoice #{@invoice_15.id}")
+          expect(page).to have_link("Invoice #{@invoice_9.id}")
+          expect(page).to have_link("Invoice #{@invoice_2.id}")
+          
+          expect(page).to_not have_link("Invoice #{@invoice_1.id}")
         end
       end
     end
