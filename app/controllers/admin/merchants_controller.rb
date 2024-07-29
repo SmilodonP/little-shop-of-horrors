@@ -11,19 +11,36 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
+
+# user story 27 fails
+  # def update
+  #   @merchant = Merchant.find(params[:id])
+  #   if @merchant.update(name: params[:name])
+  #     redirect_to admin_merchant_path(@merchant), notice: "GREAT SUCCESS!"
+  #   elsif params[:status] #moved this above so that it can correctly enable merchants? Seems strange
+  #     @merchant.update(status: params[:status])
+  #     redirect_to admin_merchants_path, notice: "The merchant has been #{@merchant.status}."
+  #   else   
+  #     render :edit
+  #   end
+  # end
+
+
+  #user story 26 fails
   def update
     @merchant = Merchant.find(params[:id])
-    
     if params[:status] #moved this above so that it can correctly enable merchants? Seems strange
       @merchant.update(status: params[:status])
       redirect_to admin_merchants_path, notice: "The merchant has been #{@merchant.status}."
-    elsif @merchant.update(name: params[:name])
+    elsif
+      @merchant.update(name: params[:name])
       redirect_to admin_merchant_path(@merchant), notice: "GREAT SUCCESS!"
     else   
       render :edit
     end
   end
-  
+
+
   def new
     
   end
