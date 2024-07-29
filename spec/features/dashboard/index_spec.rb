@@ -87,6 +87,7 @@ RSpec.describe "Merchant Dashboard" do
         visit merchant_dashboard_index_path(@merchant_1)
         # save_and_open_page
         within "#top_customers" do
+          save_and_open_page
           expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 4")
           expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
           expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
