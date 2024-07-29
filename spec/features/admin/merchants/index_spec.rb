@@ -176,7 +176,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       # And I see the total revenue generated next to each merchant name
       it "displays total generated revenue for each merchant beside their name on their show page" do
         visit admin_merchant_path(@merchant_1)
-        expect(page).to have_content("#{@merchant_1.name} - Total Revenue $#{@merchant_1.revenue}")
+        expect(page).to have_content("#{@merchant_1.name} - Total Revenue $#{@merchant_1.total_revenue}")
       end
     end
   end
