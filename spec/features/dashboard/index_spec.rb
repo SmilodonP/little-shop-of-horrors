@@ -54,6 +54,12 @@ RSpec.describe "Merchant Dashboard" do
     @invoice_item_1 = create(:invoice_item, item: @item_1, invoice: @invoice_15, status: 0)
     @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_14, status: 1)
     @invoice_item_3 = create(:invoice_item, item: @item_3, invoice: @invoice_13, status: 2)
+    @invoice_item_4 = create(:invoice_item, item: @item_1, invoice: @invoice_9, status: 0)
+    @invoice_item_5 = create(:invoice_item, item: @item_2, invoice: @invoice_8, status: 1)
+    @invoice_item_6 = create(:invoice_item, item: @item_3, invoice: @invoice_6, status: 2)
+    @invoice_item_7 = create(:invoice_item, item: @item_3, invoice: @invoice_5, status: 2)
+    @invoice_item_4 = create(:invoice_item, item: @item_1, invoice: @invoice_2, status: 0)
+    @invoice_item_5 = create(:invoice_item, item: @item_2, invoice: @invoice_1, status: 1)
   end
   context "As a merchant," do
     describe "when I visit my merchant dashboard," do
@@ -85,15 +91,14 @@ RSpec.describe "Merchant Dashboard" do
       # User Story 3
       it "and I see the names of the 5 customers with whom I have the most completed transactions, as well as the number of each customer's successful transactions." do
         visit merchant_dashboard_index_path(@merchant_1)
-        # save_and_open_page
+        save_and_open_page
         within "#top_customers" do
-          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 4")
-          expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 3")
-          expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 2")
-          expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 2")
+          expect(page).to have_content("#{@customer_6.first_name} #{@customer_6.last_name}: 3")
+          expect(page).to have_content("#{@customer_5.first_name} #{@customer_5.last_name}: 2")
+          expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name}: 1")
+          expect(page).to have_content("#{@customer_3.first_name} #{@customer_3.last_name}: 1")
           expect(page).to have_content("#{@customer_2.first_name} #{@customer_2.last_name}: 1")
-          
-          expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
+        expect(page).to_not have_content("#{@customer_1.first_name} #{@customer_6.last_name}: 0")
         end
       end
     end
