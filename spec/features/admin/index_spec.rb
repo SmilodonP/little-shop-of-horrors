@@ -19,12 +19,12 @@ RSpec.describe "Admin Dashboard", type: :feature do
       @customer_5 = create(:customer)
       @customer_6 = create(:customer)
 
-      @invoice_1 = create(:invoice, customer_id: @customer_1.id)
-      @invoice_2 = create(:invoice, customer_id: @customer_2.id)
-      @invoice_3 = create(:invoice, customer_id: @customer_3.id)
-      @invoice_4 = create(:invoice, customer_id: @customer_4.id)
-      @invoice_5 = create(:invoice, customer_id: @customer_5.id)
-      @invoice_6 = create(:invoice, customer_id: @customer_6.id)
+      @invoice_1 = create(:invoice, customer_id: @customer_1.id, created_at: 35.days.ago)
+      @invoice_2 = create(:invoice, customer_id: @customer_2.id, created_at: 25.days.ago)
+      @invoice_3 = create(:invoice, customer_id: @customer_3.id, created_at: 15.days.ago)
+      @invoice_4 = create(:invoice, customer_id: @customer_4.id, created_at: 10.days.ago)
+      @invoice_5 = create(:invoice, customer_id: @customer_5.id, created_at: 5.days.ago)
+      @invoice_6 = create(:invoice, customer_id: @customer_6.id, created_at: Time.current)
 
       @transaction_1 = create(:transaction, invoice_id: @invoice_1.id, result: 1)
       @transaction_2 = create(:transaction, invoice_id: @invoice_2.id, result: 1)
@@ -44,6 +44,7 @@ RSpec.describe "Admin Dashboard", type: :feature do
       @invoice_item_4 = create(:invoice_item, quantity: 21, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_4.id, status: 1)
       @invoice_item_5 = create(:invoice_item, quantity: 1, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_5.id, status: 2)
       @invoice_item_6 = create(:invoice_item, quantity: 8, unit_price: 5, item_id: @item_2.id, invoice_id: @invoice_6.id, status: 2)
+  
     end
 
     it "displays an Admin header" do
@@ -77,8 +78,6 @@ RSpec.describe "Admin Dashboard", type: :feature do
     describe "User Story #22 - Incomplete Invoices" do
       it "dislpays 'Incomplete Invoices' section & lists id's of invoices from unshipped items w/links to each invoice admin show page" do
         visit admin_index_path
-
-
 
         within ".incomplete_invoices" do
           expect(page).to have_content("Incomplete Invoices")
@@ -134,5 +133,37 @@ RSpec.describe "Admin Dashboard", type: :feature do
 >>>>>>> 949e68dfe316db3ddd45509237e2794e68acddd9:spec/features/admin/dashboard_spec.rb
       end
     end
+
+    describe "User Story #23 - Date and Ordered list of incomplete invoice" do 
+      it "can list oldest to newest incomplete invoice with date created" do 
+        visit admin_index_path
+    
+        within ("#invoice-id#{@invoice_1.id}") do 
+          expect(page).to have_content("#{@invoice_1.id} - Created: #{@invoice_1.created_at.strftime("%A, %B %d, %Y")}")
+        end
+
+        within ("#invoice-id#{@invoice_2.id}") do
+          expect(page).to have_content("#{@invoice_2.id} - Created: #{@invoice_2.created_at.strftime("%A, %B %d, %Y")}")
+        end
+
+        within "#invoice-id#{@invoice_3.id}" do
+          expect(page).to have_content("#{@invoice_3.id} - Created: #{@invoice_3.created_at.strftime("%A, %B %d, %Y")}")
+        end
+    
+        within "#invoice-id#{@invoice_4.id}" do
+          expect(page).to have_content("#{@invoice_4.id} - Created: #{@invoice_4.created_at.strftime("%A, %B %d, %Y")}")
+        end
+
+        within ".incomplete_invoices" do 
+          expect("Created: #{@invoice_1.created_at.strftime("%A, %B %d, %Y")}").to appear_before("Created: #{@invoice_2.created_at.strftime("%A, %B %d, %Y")}")
+          expect("Created: #{@invoice_2.created_at.strftime("%A, %B %d, %Y")}").to appear_before("Created: #{@invoice_3.created_at.strftime("%A, %B %d, %Y")}")
+          expect("Created: #{@invoice_3.created_at.strftime("%A, %B %d, %Y")}").to appear_before("Created: #{@invoice_4.created_at.strftime("%A, %B %d, %Y")}")
+        end
+          # Next to each invoice id I see the date that the invoice was created
+          # And I see the date formatted like "Monday, July 18, 2019"
+          # And I see that the list is ordered from oldest to newest
+      end
+    end
+    
   end
 end
