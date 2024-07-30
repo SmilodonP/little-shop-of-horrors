@@ -19,8 +19,10 @@ class MerchantItemsController < ApplicationController
     @item = @merchant.items.find(params[:id])
     if @item.update(item_params)
       flash[:success] = "Item Info Successfully Updated"
-      redirect_to merchant_item_path(@merchant)
-    elsif @item.status
+      redirect_to merchant_items_path(@merchant)
+    elsif params[:status]
+      @item.update(status: params[:id])
+      redirect_to merchant_items_path(@merchant), noticel: "GREAT SUCCESS! The merch has been #{@item.status}."
     else
       render :edit
     end
