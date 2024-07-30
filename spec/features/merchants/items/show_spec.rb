@@ -62,16 +62,16 @@ RSpec.describe "Merchant Show Page" do
     @invoice_item_5 = create(:invoice_item, item: @item_2, invoice: @invoice_1, status: 1)
   end
   context "As a merchant," do
-    describe "when I visit my merchant show page" do
+    describe "when I visit my merchant_item show page" do
       # User Story 7
-      it "I see my merchant name" do
-        visit merchant_items(@merchant_1)
+      it "I see my item show page that corresponds to that merchant" do
+        visit merchant_items_path(@merchant_1)
 
         click_link "singlet"
 
         visit merchant_item_path(@merchant_1, @item_1)
 
-        # expect(page).to have_path(merchant_item_path(@merchant_1, @item_1))
+        expect(page).to have_current_path(merchant_item_path(@merchant_1, @item_1))
 
         expect(page).to have_content("Name: #{ @item_1.name }") 
         expect(page).to have_content("Description: #{ @item_1.description }")
