@@ -2,10 +2,10 @@
 
 <div id="merchant_items">
   <% @items.each do |item| %>
-    <div id="merchant_item-<%=-item.id%>">
+    <div id="item-<%=-item.id%>">
       <p><%= link_to "#{item.name}", merchant_item_path(@merchant, item)%></p>
-      <p><%= button_to "Disable", merchant_items_path(@merchant, item, status: :disabled), method: :patch %></p>
-      <p><%= button_to "Enable", merchant_items_path(@merchant, item, status: :enabled), method: :patch %></p>
+      <p><%= button_to "Disable", merchant_item_path(@merchant, item, status: :disabled), method: :patch %></p>
+      <p><%= button_to "Enable", merchant_item_path(@merchant, item, status: :enabled), method: :patch %></p>
     </div>
   <% end %>
 </div>
