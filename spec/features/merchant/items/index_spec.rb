@@ -19,13 +19,15 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       # When I visit my merchant items index page (merchants/:merchant_id/items)
       visit merchant_items_path(@merchant_1)
 
-      # I see a list of the names of all of my items
-      expect(page).to have_content(@item_1.name)
-      expect(page).to have_content(@item_2.name)
-      expect(page).to have_content(@item_3.name)
-      
-      # And I do not see items for any other merchant
-      expect(page).to_not have_content(@item_4.name)
+      within "#merchant_items" do
+        # I see a list of the names of all of my items
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_2.name)
+        expect(page).to have_content(@item_3.name)
+        
+        # And I do not see items for any other merchant
+        expect(page).to_not have_content(@item_4.name)
+      end
     end
   end
 end
