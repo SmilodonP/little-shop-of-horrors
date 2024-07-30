@@ -6,7 +6,7 @@ class MerchantsController < ApplicationController
   end
   
   def index
-    @merchant = Merchant.all
+    @merchants = Merchant.all
   end
 
     # I think this should become a items controller

@@ -24,4 +24,13 @@ class Merchant < ApplicationRecord
     .where(invoice_items: { status: 0 })
     .distinct
   end
+
+  def sorted_items_ready_to_ship
+    Item
+    .select("items.*, invoices.created_at AS invoice_created_at")
+    .joins(:invoice_items)
+    .joins("INNER JOIN invoices ON invoices.id = invoice_items.invoice_id")
+    .where(invoice_items: { status: 0 }, items: { merchant_id: self.id })
+    .order("invoices.created_at")
+  end
 end

@@ -18,12 +18,12 @@ RSpec.describe Merchant, type: :model do
       @customer_5 = create(:customer)
       @customer_6 = create(:customer)
 
-      @invoice_1 = create(:invoice, customer_id: @customer_1.id)
-      @invoice_2 = create(:invoice, customer_id: @customer_2.id)
-      @invoice_3 = create(:invoice, customer_id: @customer_3.id)
-      @invoice_4 = create(:invoice, customer_id: @customer_4.id)
-      @invoice_5 = create(:invoice, customer_id: @customer_5.id)
-      @invoice_6 = create(:invoice, customer_id: @customer_6.id)
+      @invoice_1 = create(:invoice, customer: @customer_1, created_at: 35.days.ago)
+      @invoice_2 = create(:invoice, customer: @customer_2, created_at: 25.days.ago)
+      @invoice_3 = create(:invoice, customer: @customer_3, created_at: 15.days.ago)
+      @invoice_4 = create(:invoice, customer: @customer_4, created_at: 10.days.ago)
+      @invoice_5 = create(:invoice, customer: @customer_5, created_at: 5.days.ago)
+      @invoice_6 = create(:invoice, customer: @customer_6, created_at: Time.current)
 
       @transaction_1 = create(:transaction, invoice_id: @invoice_1.id, result: 1)
       @transaction_2 = create(:transaction, invoice_id: @invoice_2.id, result: 1)
@@ -54,7 +54,17 @@ RSpec.describe Merchant, type: :model do
     end
 
     describe "instance methods" do
+      describe "items_ready_to_ship" do
+        it "returns items that are ready to ship" do
+          expect(@merchant_1.items_ready_to_ship).to include(@item_1)
+        end
+      end
 
+      describe "sorted_items_ready_to_ship" do
+        it "returns sorted items ready to ship" do
+          expect(@merchant_1.sorted_items_ready_to_ship).to eq(@item_2, @item_1)
+        end
+      end
     end
   end
 end

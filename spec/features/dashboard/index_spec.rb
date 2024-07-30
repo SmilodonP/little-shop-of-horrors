@@ -12,22 +12,22 @@ RSpec.describe "Merchant Dashboard" do
     @customer_5 = create(:customer, first_name: "Dude", last_name: "Love")
     @customer_6 = create(:customer, first_name: "Rick", last_name: "Flair")
 
-    @invoice_1 = create(:invoice, customer: @customer_2)
-    @invoice_2 = create(:invoice, customer: @customer_3)
-    @invoice_3 = create(:invoice, customer: @customer_3)
-    @invoice_4 = create(:invoice, customer: @customer_4)
-    @invoice_5 = create(:invoice, customer: @customer_4)
-    @invoice_6 = create(:invoice, customer: @customer_4)
-    @invoice_7 = create(:invoice, customer: @customer_5)
-    @invoice_8 = create(:invoice, customer: @customer_5)
-    @invoice_9 = create(:invoice, customer: @customer_5)
-    @invoice_10 = create(:invoice, customer: @customer_5)
-    @invoice_11 = create(:invoice, customer: @customer_6)
-    @invoice_12 = create(:invoice, customer: @customer_6)
-    @invoice_13 = create(:invoice, customer: @customer_6)
-    @invoice_14 = create(:invoice, customer: @customer_6)
-    @invoice_15 = create(:invoice, customer: @customer_6)
-    @invoice_16 = create(:invoice, customer: @customer_6)
+    @invoice_1 = create(:invoice, customer: @customer_2, created_at: 35.days.ago)
+    @invoice_2 = create(:invoice, customer: @customer_3, created_at: 32.days.ago)
+    @invoice_3 = create(:invoice, customer: @customer_3, created_at: 29.days.ago)
+    @invoice_4 = create(:invoice, customer: @customer_4, created_at: 25.days.ago)
+    @invoice_5 = create(:invoice, customer: @customer_4, created_at: 22.days.ago)
+    @invoice_6 = create(:invoice, customer: @customer_4, created_at: 21.days.ago)
+    @invoice_7 = create(:invoice, customer: @customer_5, created_at: 19.days.ago)
+    @invoice_8 = create(:invoice, customer: @customer_5, created_at: 15.days.ago)
+    @invoice_9 = create(:invoice, customer: @customer_5, created_at: 13.days.ago)
+    @invoice_10 = create(:invoice, customer: @customer_5, created_at: 11.days.ago)
+    @invoice_11 = create(:invoice, customer: @customer_6, created_at: 8.days.ago)
+    @invoice_12 = create(:invoice, customer: @customer_6, created_at: 6.days.ago)
+    @invoice_13 = create(:invoice, customer: @customer_6, created_at: 4.days.ago)
+    @invoice_14 = create(:invoice, customer: @customer_6, created_at: 3.days.ago)
+    @invoice_15 = create(:invoice, customer: @customer_6, created_at: 2.days.ago)
+    @invoice_16 = create(:invoice, customer: @customer_6, created_at: 1.days.ago)
 
     @transaction_1 = create(:transaction, invoice: @invoice_1, result: 1)
     @transaction_2 = create(:transaction, invoice: @invoice_2, result: 1)
@@ -104,15 +104,6 @@ RSpec.describe "Merchant Dashboard" do
 
       # User Story 4
 
-#       4. Merchant Dashboard Items Ready to Ship
-
-# As a merchant
-# When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
-# Then I see a section for "Items Ready to Ship"
-# In that section I see a list of the names of all of my items that
-# have been ordered and have not yet been shipped,
-# And next to each Item I see the id of the invoice that ordered my item
-# And each invoice id is a link to my merchant's invoice show page
       it "displays items ready to ship with a link to the invoice" do 
         visit merchant_dashboard_index_path(@merchant_1)
        
@@ -129,6 +120,19 @@ RSpec.describe "Merchant Dashboard" do
           expect(page).to have_link("Invoice #{@invoice_2.id}")
           
           expect(page).to_not have_link("Invoice #{@invoice_1.id}")
+        end
+      end
+
+      # User Story 5
+      it "displays the invoice creation date next to each item, formatted and sorted from oldest to newest" do
+        visit merchant_dashboard_index_path(@merchant_1)
+
+        within "#items_ready_to_ship" do
+          save_and_open_page        
+          expect(page).to have_content("#{@item_1.name} #{@invoice_1.created_at.strftime("Sunday, July 28, 2024")}")
+          expect(page).to have_content("#{@item_1.name} #{@invoice_2.created_at.strftime("Wednesday, July 17, 2024")}")
+          expect(page).to have_content("#{@item_1.name} #{@invoice_3.created_at.strftime("Friday, June 28, 2024")}")
+
         end
       end
     end
