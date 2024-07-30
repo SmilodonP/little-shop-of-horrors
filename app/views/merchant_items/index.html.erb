@@ -1,7 +1,7 @@
 <h1><%= @merchant.name %>'s Items</h1>
 
 <div id="merchant_items">
-  <% @items.each do |item| %>
-    <p><%= link_to "#{item.name}", merchant_item_path(@merchant, item) %></p>
+<% @items.each do |item| %>
+    <p><%= link_to "#{item.name}", edit_merchant_item_path(@merchant, item) %></p>
   <% end %>
 </div>
