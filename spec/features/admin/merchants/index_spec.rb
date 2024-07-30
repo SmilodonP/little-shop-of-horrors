@@ -14,7 +14,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       merchant_2 = create(:merchant, name: "Wally World")
       merchant_3 = create(:merchant, name: "Ammuhzon")
 
-      visit admin_merchants_path # I am not 100% on this routing
+      visit admin_merchants_path
 
       within ".merchants_in_system" do  # Not sure if a `within` is necessary for this test
         expect(page).to have_content("#{merchant_1.name}")
