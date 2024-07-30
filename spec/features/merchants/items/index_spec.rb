@@ -35,12 +35,12 @@ RSpec.describe "Merchant Dashboard", type: :feature do
   describe "enabling & disabling items from merchant_items index page" do
     it "updates merchant_item status to 'Enabled' with button" do
       @merchant_1 = create(:merchant)
-      @item_1 = create(:item, status: 0)
+      @item_1 = create(:item, status: 0, merchant: @merchant_1)
       # As a merchant
       # When I visit my items index page (/merchants/:merchant_id/items)
       visit merchant_items_path(@merchant_1)
 
-      within "#merchant_item-#{@item_1.id}" do
+      within "#item-#{@item_1.id}" do
         # Next to each item name I see a button to disable or enable that item.
         expect(page).to have_button("Enable")     
         expect(page).to have_button("Disable")
@@ -59,7 +59,7 @@ RSpec.describe "Merchant Dashboard", type: :feature do
 
     it "updates merchant_item status to 'Disabled' with button" do
       @merchant_2 = create(:merchant)
-      @item_2 = create(:item, status: 1)
+      @item_2 = create(:item, status: 1, merchant: @merchant_2)
       
       # As a merchant
       # When I visit my items index page (/merchants/:merchant_id/items)
