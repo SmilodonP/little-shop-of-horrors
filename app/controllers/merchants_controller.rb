@@ -6,6 +6,7 @@ class MerchantsController < ApplicationController
   end
   
   def index
+    @top_five = Merchant.top_5_merchants
     @merchant = Merchant.all
   end
 
