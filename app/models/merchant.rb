@@ -6,6 +6,8 @@ class Merchant < ApplicationRecord
 
   validates :name, presence: true
 
+  enum status: {disabled: 0, enabled: 1}
+
   def top_five_customers
     Customer
     .select("customers.id, customers.first_name, customers.last_name, COUNT(t1.id) AS transaction_count")
@@ -24,4 +26,6 @@ class Merchant < ApplicationRecord
     .where(invoice_items: { status: 0 })
     .distinct
   end
+
+
 end
