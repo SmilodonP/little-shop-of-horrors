@@ -103,7 +103,7 @@ RSpec.describe "Merchant Dashboard" do
       end
 
       # User Story 4
-      xit "displays items ready to ship with a link to the invoice" do 
+      it "displays items ready to ship with a link to the invoice" do 
         visit merchant_path(@merchant_1)
         # save_and_open_page
         within "#items_ready_to_ship" do
