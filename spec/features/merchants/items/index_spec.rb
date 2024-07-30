@@ -30,4 +30,52 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       end
     end
   end
+
+  # User Story 9
+  describe "enabling & disabling items from merchant_items index page" do
+    it "updates merchant_item status to 'Enabled' with button" do
+      @merchant_1 = create(:merchant)
+      @item_1 = create(:item, status: 0)
+      # As a merchant
+      # When I visit my items index page (/merchants/:merchant_id/items)
+      visit merchant_items_path(@merchant_1)
+
+      # Next to each item name I see a button to disable or enable that item.
+      expect(page).to have_button("Enable")     
+      expect(page).to have_button("Disable")
+
+      # When I click this button
+      click_button "Enable"
+
+      # Then I am redirected back to the items index
+      expect(current_path).to eq(merchant_items(@merchant_1))
+      @item_1.reload
+
+      # And I see that the items status has changed
+      expect(@item_1.status).to eq("enabled")
+    end
+
+    it "updates merchant_item status to 'Disabled' with button" do
+      @merchant_2 = create(:merchant)
+      @item_2 = create(:item, status: 1)
+      
+      # As a merchant
+      # When I visit my items index page (/merchants/:merchant_id/items)
+      visit merchant_items_path(@merchant_2)
+
+      # Next to each item name I see a button to disable or enable that item.
+      expect(page).to have_button("Enable")     
+      expect(page).to have_button("Disable")
+
+      # When I click this button
+      click_button "Disable"
+
+      # Then I am redirected back to the items index
+      expect(current_path).to eq(merchant_items(@merchant_2))
+      @item_2.reload
+
+      # And I see that the items status has changed
+      expect(@item_2.status).to eq("disabled")
+    end
+  end
 end
