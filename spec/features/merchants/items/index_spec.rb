@@ -40,12 +40,14 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       # When I visit my items index page (/merchants/:merchant_id/items)
       visit merchant_items_path(@merchant_1)
 
-      # Next to each item name I see a button to disable or enable that item.
-      expect(page).to have_button("Enable")     
-      expect(page).to have_button("Disable")
+      within "#merchant_item-#{@item_1.id}" do
+        # Next to each item name I see a button to disable or enable that item.
+        expect(page).to have_button("Enable")     
+        expect(page).to have_button("Disable")
 
-      # When I click this button
-      click_button "Enable"
+        # When I click this button
+        click_button "Enable"
+      end
 
       # Then I am redirected back to the items index
       expect(current_path).to eq(merchant_items(@merchant_1))
@@ -63,12 +65,14 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       # When I visit my items index page (/merchants/:merchant_id/items)
       visit merchant_items_path(@merchant_2)
 
-      # Next to each item name I see a button to disable or enable that item.
-      expect(page).to have_button("Enable")     
-      expect(page).to have_button("Disable")
+      within "#merchant_item-#{@item_2.id}" do
+        # Next to each item name I see a button to disable or enable that item.
+        expect(page).to have_button("Enable")     
+        expect(page).to have_button("Disable")
 
-      # When I click this button
-      click_button "Disable"
+        # When I click this button
+        click_button "Disable"
+      end
 
       # Then I am redirected back to the items index
       expect(current_path).to eq(merchant_items(@merchant_2))
