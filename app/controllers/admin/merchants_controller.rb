@@ -11,6 +11,8 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
+  #ENABLED/DISABLED MERCHANT LOGIC SHOULD BE IN THE CONTROLLER NOT THE VIEW
+
 
 # user story 27 fails
   # def update
