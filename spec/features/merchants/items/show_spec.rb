@@ -65,9 +65,9 @@ RSpec.describe "Merchant Show Page" do
     describe "when I visit my merchant show page" do
       # User Story 7
       it "I see my merchant name" do
-        # visit merchant_dashboard_index_path(@merchant_1)
+        visit merchant_items(@merchant_1)
 
-        # click_link "singlet"
+        click_link "singlet"
 
         visit merchant_item_path(@merchant_1, @item_1)
 
