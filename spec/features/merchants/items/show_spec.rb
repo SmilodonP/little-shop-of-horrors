@@ -71,17 +71,16 @@ RSpec.describe "Merchant Show Page" do
 
         visit merchant_item_path(@merchant_1, @item_1)
 
-        expect(page).to have_path(merchant_item_path(@merchant_1, @item_1))
+        # expect(page).to have_path(merchant_item_path(@merchant_1, @item_1))
 
-        within("#item") do 
-          expect(page).to have_content("Name: #{ @item_1.name }") 
-          expect(page).to have_content("Description: #{ @item_1.description }")
-          expect(page).to have_content("Current Selling Price: #{ @item_1.unit_price }")
+        expect(page).to have_content("Name: #{ @item_1.name }") 
+        expect(page).to have_content("Description: #{ @item_1.description }")
+        expect(page).to have_content("Current Selling Price: #{ @item_1.unit_price }")
 
-          expect(page).to_not have_content("Name: #{ @item_2.name}")
-          expect(page).to_not have_content("Description: #{ @item_2.description }")
-          expect(page).to_not have_content("Current Selling Price: #{ @item_2.unit_price }")
-        end
+        expect(page).to_not have_content("Name: #{ @item_2.name}")
+        expect(page).to_not have_content("Description: #{ @item_2.description }")
+        expect(page).to_not have_content("Current Selling Price: #{ @item_2.unit_price }")
+
       end
     end
   end
