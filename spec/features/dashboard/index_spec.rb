@@ -107,7 +107,7 @@ RSpec.describe "Merchant Dashboard" do
         visit merchant_dashboard_index_path(@merchant_1)
         within "#items_ready_to_ship" do
         
-        expect(page).to have_content("Items Ready to Ship")
+          expect(page).to have_content("Items Ready to Ship")
 
         expect(page).to have_content(@item_1.name)
         expect(page).to_not have_content(@item_2.name)
@@ -118,6 +118,8 @@ RSpec.describe "Merchant Dashboard" do
         expect(page).to have_link("Invoice #{@invoice_15.id}")
         end
       end
+
+      
     end
   end
 end

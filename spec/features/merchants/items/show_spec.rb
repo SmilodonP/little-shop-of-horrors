@@ -94,34 +94,25 @@ RSpec.describe "Merchant Item Show Page" do
     end
 
     it "displays 'Update Item' link to modify merchant item" do
-      # As a merchant,
-      # When I visit the merchant show page of an item (/merchants/:merchant_id/items/:item_id)
       visit merchant_item_path(@merchant_1, @item_1)
-      
-      # binding.pry
-      # I see a link to update the item information.
+
       expect(page).to have_content("Update Item")
-      # When I click the link
+
       click_link "Update Item"
       
-      # Then I am taken to a page to edit this item
       expect(current_path).to eq(edit_merchant_item_path(@merchant_1, @item_1))
       
-      # And I see a form filled in with the existing item attribute information
       expect(find_field('Name:').value).to eq(@item_1.name)
       expect(find_field('Description:').value).to eq(@item_1.description)
       expect(find_field('Unit Price:').value).to eq(@item_1.unit_price.to_s)
       
-      # When I update the information in the form and I click 'submit'
       fill_in 'Name:', with: "New Name"
       fill_in 'Description:', with: "Muy Bueno"
       fill_in 'Unit Price:', with: "666"
       click_button 'Submit'
 
-      # Then I am redirected back to the item show page where I see the updated information
       expect(current_path).to eq(merchant_item_path(@merchant_1, @item_1))
 
-      # And I see a flash message stating that the information has been successfully updated.
       expect(page).to have_content("Name: New Name")
       expect(page).to have_content("Description: Muy Bueno")
       expect(page).to have_content("Current Selling Price: 666")
