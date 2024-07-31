@@ -3,6 +3,7 @@ class Merchant < ApplicationRecord
   has_many :invoice_items, through: :items
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
+  has_many :transactions, through: :invoices
 
   validates :name, presence: true
 
@@ -27,5 +28,13 @@ class Merchant < ApplicationRecord
     .distinct
   end
 
+  def self.top_five_merchants 
+    joins(:transactions)
+    .select("merchants.id, merchants.name, sum(invoice_items.quantity*invoice_items.unit_price) as revenue")
+    .where("transactions.result = 1")
+    .group("merchants.id")
+    .order("revenue desc")
+    .limit(5)
+  end
 
 end
