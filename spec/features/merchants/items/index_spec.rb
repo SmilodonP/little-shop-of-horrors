@@ -81,13 +81,13 @@ RSpec.describe "Merchant Dashboard", type: :feature do
 
   # User Story #10
   describe "group merchant items by status" do
-    @merchant_1 = create(:merchant)
-    @item_1 = create(:item, status: 0)
-    @item_2 = create(:item, status: 0)
-    @item_3 = create(:item, status: 1)
-    @item_4 = create(:item, status: 1)
-
     it "displays enabled merchant items" do
+      @merchant_1 = create(:merchant)
+      @item_1 = create(:item, status: 0)
+      @item_2 = create(:item, status: 0)
+      @item_3 = create(:item, status: 1)
+      @item_4 = create(:item, status: 1)
+
       # When I visit my merchant items index page
       visit merchant_items_path(@merchant_1)
 
