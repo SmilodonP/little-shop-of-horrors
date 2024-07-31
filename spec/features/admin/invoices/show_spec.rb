@@ -56,4 +56,24 @@ RSpec.describe "Admin Invoices Show Page", type: :feature do
       end
     end
   end
+
+    describe "User Story #35" do 
+      it "can display total revenue from invoice" do 
+        @customer_1 = create(:customer)
+        @invoice_1 = create(:invoice, customer_id: @customer_1.id)
+        @transaction_1 = create(:transaction, invoice_id: @invoice_1.id, result: 1)
+        @merchant_1 = create(:merchant)
+        @item_1 = create(:item, unit_price: 10, merchant_id: @merchant_1.id)
+        @item_2 = create(:item, unit_price: 10, merchant_id: @merchant_1.id)
+        @invoice_item_1 = create(:invoice_item, quantity: 40, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_1.id)
+        @invoice_item_2 = create(:invoice_item, quantity: 9, unit_price: 10, item_id: @item_2.id, invoice_id: @invoice_1.id)
+  
+        visit admin_invoice_path(@invoice_1)
+
+        within ".total-revenue" do 
+          expect(page).to have_content("Total Revenue: $#{@invoice_1.total_revenue.round(2)}")
+        end
+      end
+    end
+
 end

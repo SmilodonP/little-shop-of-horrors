@@ -3,6 +3,10 @@
 <p><%= "Created: #{@invoice.created_at.strftime("%A, %B %d, %Y")}" %></p>
 <p><%= "Customer: #{@invoice.customer.full_name}" %></p>
 
+<section class="total-revenue">
+  <%= "Total Revenue: $#{@invoice.total_revenue.round(2)}" %>
+</section>
+
 
 <%= @invoice.items.each do |item| %>
   <div id="item-<%=item.id%>">

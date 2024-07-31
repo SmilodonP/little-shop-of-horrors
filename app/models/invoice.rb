@@ -13,8 +13,14 @@ class Invoice < ApplicationRecord
     "completed": 2
   }
 
+  #class methods
   def self.unshipped_invoices
     # select(:id).joins(:invoice_items).where("invoice_items.status != 2")
     select("invoices.id, invoices.created_at").joins(:invoice_items).where.not(invoice_items: {status: 2}).order("invoices.created_at")
+  end
+
+  #instance methods
+  def total_revenue
+    (invoice_items.sum("invoice_items.quantity*invoice_items.unit_price")/100.00)
   end
 end

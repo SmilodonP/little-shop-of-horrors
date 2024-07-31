@@ -31,4 +31,19 @@ RSpec.describe Invoice, type: :model do
       expect(Invoice.unshipped_invoices).to eq([invoice_1, invoice_3])
     end
   end
+
+  describe "#total_revenue" do 
+    it "can calculate total revenue for 1 invoice" do 
+      @customer_1 = create(:customer)
+      @invoice_1 = create(:invoice, customer_id: @customer_1.id)
+      @transaction_1 = create(:transaction, invoice_id: @invoice_1.id, result: 1)
+      @merchant_1 = create(:merchant)
+      @item_1 = create(:item, unit_price: 10, merchant_id: @merchant_1.id)
+      @item_2 = create(:item, unit_price: 10, merchant_id: @merchant_1.id)
+      @invoice_item_1 = create(:invoice_item, quantity: 40, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_1.id)
+      @invoice_item_2 = create(:invoice_item, quantity: 9, unit_price: 10, item_id: @item_2.id, invoice_id: @invoice_1.id)
+
+      expect(@invoice_1.total_revenue).to eq(4.9)
+    end
+  end
 end
