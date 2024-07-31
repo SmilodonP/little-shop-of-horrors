@@ -27,7 +27,6 @@ RSpec.describe Invoice, type: :model do
       invoice_item_3 = create(:invoice_item, quantity: 15, unit_price: 10, item_id: item_1.id, invoice_id: invoice_3.id, status: 1)
       invoice_item_5 = create(:invoice_item, quantity: 1, unit_price: 10, item_id: item_1.id, invoice_id: invoice_5.id, status: 2)
 
-      # Shouldn't #unshipped_invoices return the id #'s without 'pluck'?
       expect(Invoice.unshipped_invoices).to eq([invoice_1, invoice_3])
     end
   end
