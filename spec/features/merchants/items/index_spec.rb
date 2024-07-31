@@ -78,4 +78,41 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       expect(@item_2.status).to eq("disabled")
     end
   end
+
+  # User Story #11
+  describe "creating new item from merchant index page" do
+    it "creates new merchant item via form" do
+      @merchant_1 = create(:merchant, name: "Tarzhay")
+
+      # As a merchant
+      # When I visit my items index page
+      visit merchant_items_path(@merchant_1)
+
+      # I see a link to create a new item.
+      expect(page).to have_link("Create New Item", new_merchant_item(@merchant_1))
+
+      # When I click on the link,
+      click_link "Create New Item"
+      expect(current_path).to eq(new_merchant_item(@merchant_1))
+
+      # I am taken to a form that allows me to add item information.
+      fill_in "Name: ", with: "Jinco Jeans"
+      fill_in "Description: ", with "Thug Life"
+      fill_in "Unit Price: ", with "1000"
+
+      # When I fill out the form I click ‘Submit’
+      click_button "Submit"
+
+      # Then I am taken back to the items index page
+      expect(current_path).to eq(merchant_items_path(@merchant_1))
+
+      # And I see the item I just created displayed in the list of items.
+      expect(page).to have_content("Jinco Jeans")
+      expect(page).to have_content("Thug Life")
+      expect(page).to have_content("1000")
+
+      # And I see my item was created with a default status of disabled.
+      expect(page).to have_content("Status: Disabled")
+    end
+  end
 end
