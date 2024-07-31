@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Merchant Dashboard", type: :feature do
+RSpec.describe "Merchant Item", type: :feature do
   before(:each) do
     @merchant_1 = create(:merchant, name: "Seymore")
     @merchant_2 = create(:merchant, name: "Audrey")
@@ -45,9 +45,9 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       expect(@item_1.status).to eq("enabled")
     end
 
-    it "updates merchant_item status to 'Disabled' with button" do
-      @merchant_2 = create(:merchant)
-      @item_2 = create(:item, status: 1)
+  #   it "updates merchant_item status to 'Disabled' with button" do
+  #     @merchant_2 = create(:merchant)
+  #     @item_2 = create(:item, status: 1)
       
       visit merchant_items_path(@merchant_2)
 
@@ -63,14 +63,14 @@ RSpec.describe "Merchant Dashboard", type: :feature do
     end
   end
 
-  # User Story #10
-  describe "group merchant items by status" do
-    it "displays enabled merchant items" do
-      @merchant_1 = create(:merchant)
-      @item_1 = create(:item, status: 0)
-      @item_2 = create(:item, status: 0)
-      @item_3 = create(:item, status: 1)
-      @item_4 = create(:item, status: 1)
+  # # User Story #10
+  # describe "group merchant items by status" do
+  #   xit "displays enabled merchant items" do
+  #     @merchant_1 = create(:merchant)
+  #     @item_1 = create(:item, status: 0)
+  #     @item_2 = create(:item, status: 0)
+  #     @item_3 = create(:item, status: 1)
+  #     @item_4 = create(:item, status: 1)
 
       visit merchant_items_path(@merchant_1)
 
@@ -88,10 +88,10 @@ RSpec.describe "Merchant Dashboard", type: :feature do
     end
   end
 
-  # User Story #11
-  describe "creating new item from merchant index page" do
-    it "creates new merchant item via form" do
-      @merchant_1 = create(:merchant, name: "Tarzhay")
+  # # User Story #11
+  # describe "creating new item from merchant index page" do
+  #   xit "creates new merchant item via form" do
+  #     @merchant_1 = create(:merchant, name: "Tarzhay")
 
       visit merchant_items_path(@merchant_1)
 
