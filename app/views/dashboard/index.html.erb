@@ -12,10 +12,9 @@
 <div id="top_customers">
   <h3>Top 5 Customers by Completed Transactions:</h3>
     <% @top_five_customers.each do |customer| %>
-      <li><%= "#{customer.first_name} #{customer.last_name}: #{customer.transaction_count}" %></li>
+      <li><%= "#{customer.first_name} #{customer.last_name}: #{customer.customer_transactions}" %></li>
     <% end %>
 </div>
-
 
 <div id="items_ready_to_ship">
   <h2> Items Ready to Ship </h2>
