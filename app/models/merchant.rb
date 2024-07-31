@@ -28,8 +28,8 @@ class Merchant < ApplicationRecord
     .distinct
   end
 
-  def self.top_5_merchants 
-    self.joins(:transactions)
+  def self.top_five_merchants 
+    joins(:transactions)
     .select("merchants.id, merchants.name, sum(invoice_items.quantity*invoice_items.unit_price) as revenue")
     .where("transactions.result = 1")
     .group("merchants.id")

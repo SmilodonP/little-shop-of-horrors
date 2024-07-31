@@ -184,9 +184,9 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
         visit admin_merchants_path 
 save_and_open_page
         within ".top-5-merchants" do 
-          expect("#{@merchant_1.name} - $#{@merchant_1.revenue}").to appear_before("#{@merchant_4.name} - $#{@merchant_4.revenue}")
-          expect("#{@merchant_3.name} - $#{@merchant_3.revenue}").to appear_before("#{@merchant_2.name} - $#{@merchant_2.revenue}")
-          expect("#{@merchant_4.name} - $#{@merchant_4.revenue}").to appear_before("#{@merchant_5.name} - $#{@merchant_5.revenue}")
+          expect("#{@merchant_1.name} - $400").to appear_before("#{@merchant_4.name} - $210")
+          expect("#{@merchant_3.name} - $150").to appear_before("#{@merchant_2.name} - $90")
+          expect("#{@merchant_4.name} - $210").to appear_before("#{@merchant_5.name} - $10")
         end
 
 
