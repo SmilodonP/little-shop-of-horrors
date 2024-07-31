@@ -4,6 +4,14 @@
   <%= button_to "Create Merchant", new_admin_merchant_path, method: :get %>
 </section>
 
+<section class="top-5-merchants">
+  <% @top_five_merchants.each do |merchant| %>
+    <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %> - 
+    $<%="#{(merchant.revenue/100.0).round(2)}" %></p>
+  <% end %>
+</section>
+
+
 <section class="merchants_in_system">
   <section class="enabled">
     <b><h3>Enabled Merchants</h3></b>
