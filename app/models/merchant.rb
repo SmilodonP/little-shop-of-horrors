@@ -10,7 +10,15 @@ class Merchant < ApplicationRecord
   enum status: {disabled: 0, enabled: 1}
 
   def top_five_customers
-    Customer
+    # customers.joins(invoices: :transactions)
+    #   .select("customers.*, COUNT(transactions.id) as transactions")
+    #   .where(transactions: {result: 0})
+    #   .group("customer.id")
+    #   .order("COUNT(transactions.id) DESC")
+    #   .limit(5)
+    
+    
+    customers
     .select("customers.id, customers.first_name, customers.last_name, COUNT(t1.id) AS transaction_count")
     .joins('INNER JOIN invoices ON invoices.customer_id = customers.id')
     .joins('INNER JOIN transactions t1 ON t1.invoice_id = invoices.id')
@@ -23,8 +31,10 @@ class Merchant < ApplicationRecord
   end
 
   def items_ready_to_ship
-    items.joins(:invoice_items)
-    .where(invoice_items: { status: 0 })
+    items.joins(invoice_items: :invoice)
+    .select("items.*, invoices.created_at, invoices.id as invoice")
+    .where(invoice_items: 0)
+    .order("invoices.created_at asc")
     .distinct
   end
 

@@ -110,12 +110,12 @@ RSpec.describe "Merchant Dashboard" do
         
         expect(page).to have_content("Items Ready to Ship")
 
-          expect(page).to have_content(@item_2.name)
-          expect(page).to_not have_content(@item_1.name)
-          expect(page).to_not have_content(@item_3.name)
+        expect(page).to have_content(@item_2.name)
+        expect(page).to_not have_content(@item_1.name)
+        expect(page).to_not have_content(@item_3.name)
 
-          expect(page).to have_link("Invoice #{@invoice_14.id}")
-          expect(page).to have_link("Invoice #{@invoice_15.id}")
+        expect(page).to have_link("Invoice #{@invoice_14.id}")
+        expect(page).to have_link("Invoice #{@invoice_15.id}")
         end
       end
     end
