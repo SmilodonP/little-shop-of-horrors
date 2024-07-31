@@ -10,22 +10,34 @@ class Merchant < ApplicationRecord
   enum status: {disabled: 0, enabled: 1}
 
   def top_five_customers
-    # customers.joins(invoices: :transactions)
+
+    customers
+      .joins(transactions: {invoice: :customer})
+      .where("invoices.status = 2")
+      .where('result = 1')
+      .select("customers.*, count('transactions.result') as customer_transactions")
+      .group('customers.id')
+      .order("customer_transactions DESC")
+      .distinct
+      .limit(5)
+
+    # customers
+        # .joins(invoices: :transactions)
     #   .select("customers.*, COUNT(transactions.id) as transactions")
     #   .where(transactions: {result: 0})
-    #   .group("customer.id")
+    #   .group("customer.id ")
     #   .order("COUNT(transactions.id) DESC")
     #   .limit(5)
     
-    customers
-    .select("customers.id, customers.first_name, customers.last_name, count(transactions.id) as transaction_count")
-    .joins(invoices: :transactions)
-    .joins("INNER JOIN transactions ON transactions.invoice_id = invoices.id")
-    .joins("INNER JOIN items ON items.id = invoice_items.item_id")
-    .where(transactions: { result: 1 }, items: { merchant_id: self.id })
-    .group("customers.id, customers.first_name, customers.last_name")
-    .order("transaction_count desc")
-    .limit(5)
+    # customers
+    # .joins(invoices: :transactions)
+    # .joins("INNER JOIN transactions ON transactions.invoice_id = invoices.id")
+    # .joins("INNER JOIN items ON items.id = invoice_items.item_id")
+    # .select("customers.id, customers.first_name, customers.last_name, count(transactions.id) as transaction_count")
+    # .where(transactions: { result: 1 }, items: { merchant_id: self.id })
+    # .group("customers.id, customers.first_name, customers.last_name")
+    # .order("transaction_count desc")
+    # .limit(5)
 
     # customers
     # .select("customers.id, customers.first_name, customers.last_name, COUNT(t1.id) AS transaction_count")
