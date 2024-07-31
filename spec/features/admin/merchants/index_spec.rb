@@ -182,11 +182,17 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
         @invoice_item_6 = create(:invoice_item, quantity: 8, unit_price: 5, item_id: @item_2.id, invoice_id: @invoice_6.id, status: 2)
 
         visit admin_merchants_path 
-save_and_open_page
+
         within ".top-5-merchants" do 
-          expect("#{@merchant_1.name} - $400").to appear_before("#{@merchant_4.name} - $210")
-          expect("#{@merchant_3.name} - $150").to appear_before("#{@merchant_2.name} - $90")
-          expect("#{@merchant_4.name} - $210").to appear_before("#{@merchant_5.name} - $10")
+          expect(page).to have_link("#{@merchant_1.name}", :href => admin_merchant_path(@merchant_1.id))
+          expect(page).to have_link("#{@merchant_2.name}", :href => admin_merchant_path(@merchant_2.id))
+          expect(page).to have_link("#{@merchant_3.name}", :href => admin_merchant_path(@merchant_3.id))
+          expect(page).to have_link("#{@merchant_4.name}", :href => admin_merchant_path(@merchant_4.id))
+          expect(page).to have_link("#{@merchant_5.name}", :href => admin_merchant_path(@merchant_5.id))
+
+          expect("$4.0").to appear_before("$2.1")
+          expect("$1.5").to appear_before("$0.9")
+          expect("$2.1").to appear_before("$0.1")
         end
 
 
