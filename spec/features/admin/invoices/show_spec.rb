@@ -1,8 +1,8 @@
 require "rails_helper"
 
-RSpec.describe "Visiting the Admin Invoices Index Page", type: :feature do
-  describe "User Story #32" do
-    it "can list all invoice id's with links to respective show pages" do 
+RSpec.describe "Admin Invoices Show Page", type: :feature do
+  describe "User Story #33" do
+    it "can list invoice's attributes on invoice show page"  do 
       @customer_1 = create(:customer)
       @invoice_1 = create(:invoice, customer_id: @customer_1.id)
       @invoice_2 = create(:invoice, customer_id: @customer_1.id)
@@ -19,11 +19,12 @@ RSpec.describe "Visiting the Admin Invoices Index Page", type: :feature do
       @invoice_item_5 = create(:invoice_item, quantity: 1, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_3.id)
       @invoice_item_6 = create(:invoice_item, quantity: 8, unit_price: 5, item_id: @item_1.id, invoice_id: @invoice_3.id)
     
-      visit admin_invoices_path
+      visit admin_invoice_path(@invoice_1)
 
-      expect(page).to have_link("#{@invoice_1.id}", :href => admin_invoice_path(@invoice_1))
-      expect(page).to have_link("#{@invoice_2.id}", :href => admin_invoice_path(@invoice_2))
-      expect(page).to have_link("#{@invoice_3.id}", :href => admin_invoice_path(@invoice_3))
+      expect(page).to have_content("Id: #{@invoice_1.id}")
+      expect(page).to have_content("Status: #{@invoice_1.status}")
+      expect(page).to have_content("Created: #{@invoice_1.created_at.strftime("%A, %B %d, %Y")}")
+      expect(page).to have_content("Customer: #{@invoice_1.customer.full_name}")
     end
   end
 
