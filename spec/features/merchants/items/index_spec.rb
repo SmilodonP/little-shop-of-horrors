@@ -13,19 +13,14 @@ RSpec.describe "Merchant Dashboard", type: :feature do
 
   # User Story 6
   describe "As a merchant" do
-    # DO I NEED A WITHIN HERE?
+
     it "shows a list of the names of all my items" do
-      # As a merchant,
-      # When I visit my merchant items index page (merchants/:merchant_id/items)
       visit merchant_items_path(@merchant_1)
 
       within "#merchant_items" do
-        # I see a list of the names of all of my items
         expect(page).to have_content(@item_1.name)
         expect(page).to have_content(@item_2.name)
         expect(page).to have_content(@item_3.name)
-        
-        # And I do not see items for any other merchant
         expect(page).to_not have_content(@item_4.name)
       end
     end
@@ -36,22 +31,17 @@ RSpec.describe "Merchant Dashboard", type: :feature do
     it "updates merchant_item status to 'Enabled' with button" do
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, status: 0)
-      # As a merchant
-      # When I visit my items index page (/merchants/:merchant_id/items)
+
       visit merchant_items_path(@merchant_1)
 
-      # Next to each item name I see a button to disable or enable that item.
       expect(page).to have_button("Enable")     
       expect(page).to have_button("Disable")
 
-      # When I click this button
       click_button "Enable"
 
-      # Then I am redirected back to the items index
       expect(current_path).to eq(merchant_items(@merchant_1))
       @item_1.reload
 
-      # And I see that the items status has changed
       expect(@item_1.status).to eq("enabled")
     end
 
@@ -59,22 +49,16 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       @merchant_2 = create(:merchant)
       @item_2 = create(:item, status: 1)
       
-      # As a merchant
-      # When I visit my items index page (/merchants/:merchant_id/items)
       visit merchant_items_path(@merchant_2)
 
-      # Next to each item name I see a button to disable or enable that item.
       expect(page).to have_button("Enable")     
       expect(page).to have_button("Disable")
 
-      # When I click this button
       click_button "Disable"
 
-      # Then I am redirected back to the items index
       expect(current_path).to eq(merchant_items(@merchant_2))
       @item_2.reload
 
-      # And I see that the items status has changed
       expect(@item_2.status).to eq("disabled")
     end
   end
@@ -88,17 +72,14 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       @item_3 = create(:item, status: 1)
       @item_4 = create(:item, status: 1)
 
-      # When I visit my merchant items index page
       visit merchant_items_path(@merchant_1)
 
-      # Then I see two sections, one for "Enabled Items" and one for "Disabled Items"
       within '.enabled' do 
         expect(page).to have_content("Enabled Merchant Items")
         expect(page).to have_content(@item_1.name)
         expect(page).to have_content(@item_2.name)
       end
 
-      # And I see that each Item is listed in the appropriate section
       within '.disabled' do 
         expect(page).to have_content("Disabled Merchant Items")
         expect(page).to have_content(@item_3.name)
@@ -112,36 +93,25 @@ RSpec.describe "Merchant Dashboard", type: :feature do
     it "creates new merchant item via form" do
       @merchant_1 = create(:merchant, name: "Tarzhay")
 
-      # As a merchant
-      # When I visit my items index page
       visit merchant_items_path(@merchant_1)
 
-      # I see a link to create a new item.
       expect(page).to have_link("Create New Item", new_merchant_item(@merchant_1))
 
-      # When I click on the link,
       click_link "Create New Item"
       expect(current_path).to eq(new_merchant_item(@merchant_1))
 
-      # I am taken to a form that allows me to add item information.
       fill_in "Name: ", with: "Jinco Jeans"
-      fill_in "Description: ", with "Thug Life"
-      fill_in "Unit Price: ", with "1000"
+      fill_in "Description: ", with: "Thug Life"
+      fill_in "Unit Price: ", with: "1000"
 
-      # When I fill out the form I click ‘Submit’
       click_button "Submit"
 
-      # Then I am taken back to the items index page
       expect(current_path).to eq(merchant_items_path(@merchant_1))
 
-      # And I see the item I just created displayed in the list of items.
       expect(page).to have_content("Jinco Jeans")
       expect(page).to have_content("Thug Life")
       expect(page).to have_content("1000")
 
-      # And I see my item was created with a default status of disabled.
-        # MAY REQUIRE TROUBLESHOOTING ONCE FORMS EXIST
-        # SHOULD GET US ON THE RIGHT TRACK
       @new_item = Item.last
       expect(page).to have_content("#{@new_item.status}")
       expect(@new_item.status).to eq("disabled")
@@ -175,8 +145,6 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       @transaction_5 = create(:transaction, invoice_id: @invoice_5.id, result: 1)
       @transaction_6 = create(:transaction, invoice_id: @invoice_6.id, result: 0)
 
-      # Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
-        # Therefore -> I'm putting multiple invoice_items to ensure they sum together
       @invoice_item_1 = create(:invoice_item, quantity: 10, unit_price: 8, item_id: @item_1.id, invoice_id: @invoice_1.id, status: 2)
       @invoice_item_2 = create(:invoice_item, quantity: 10, unit_price: 8, item_id: @item_1.id, invoice_id: @invoice_1.id, status: 2)
       @invoice_item_3 = create(:invoice_item, quantity: 10, unit_price: 7, item_id: @item_2.id, invoice_id: @invoice_2.id, status: 2)
@@ -189,12 +157,8 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       @invoice_item_10 = create(:invoice_item, quantity: 10, unit_price: 4, item_id: @item_5.id, invoice_id: @invoice_5.id, status: 2)
       @invoice_item_6 = create(:invoice_item, quantity: 10, unit_price: 1, item_id: @item_6.id, invoice_id: @invoice_6.id, status: 0)
 
-      # As a merchant
-      # When I visit my items index page
       visit merchant_items_path(@merchant_1)
 
-      # Then I see the names of the top 5 most popular items ranked by total revenue generated
-      # And I see that each item name links to my merchant item show page for that item
       within "#top-5-items" 
         expect(page).to have_link("#{@item_1.name}", href: merchant_item_path(@item_1))
         expect(page).to have_link("#{@item_2.name}", href: merchant_item_path(@item_2))
@@ -206,10 +170,6 @@ RSpec.describe "Merchant Dashboard", type: :feature do
         expect(@item_2).to appear_before (@item_3)
         expect(@item_3).to appear_before (@item_4)
         expect(@item_4).to appear_before (@item_5)
-        
-        # And I see the total revenue generated next to each item name
-          # total_item_revenue will be a model method in Item class
-          # Multiply unit_price * quantity
 
         # NOT SURE IF WE USE DYNAMIC TESTING HERE?
         expect(page).to have_content("#{@item_1.total_item_revenue}")
@@ -224,11 +184,6 @@ RSpec.describe "Merchant Dashboard", type: :feature do
         expect(@item_3.total_item_revenue).to eq(1200)
         expect(@item_4.total_item_revenue).to eq(1000)
         expect(@item_5.total_item_revenue).to eq(800)
-
-        # Notes on Revenue Calculation:
-        # - Only invoices with at least one successful transaction should count towards revenue
-        # - Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
-        # - Revenue for an invoice item should be calculated as the invoice item unit price multiplied by the quantity (do not use the item unit price)
     end
   end
 end
