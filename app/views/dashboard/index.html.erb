@@ -4,6 +4,11 @@
   <h3>Name: <%= @merchant.name %></h3>
 </div>
 
+<div id="merchant_links">
+  <%= link_to "Items Index", merchant_items_path(@merchant) %>
+  <%= link_to "Invoices Index", merchant_invoices_path(@merchant) %>
+</div>
+
 <div id="top_customers">
   <h3>Top 5 Customers by Completed Transactions:</h3>
     <% @top_five_customers.each do |customer| %>
@@ -11,7 +16,11 @@
     <% end %>
 </div>
 
-<div id="merchant_links">
-  <%= link_to "Items Index", merchant_items_path(@merchant) %>
-  <%= link_to "Invoices Index", merchant_invoices_path(@merchant) %>
+
+<div id="items_ready_to_ship">
+  <h2> Items Ready to Ship </h2>
+  <% @items_ready_to_ship.each do |item| %>
+    <p> <%= item.name %> </p>
+    <%= link_to "Invoice #{item.invoice_id}", invoice_path(item.invoice_id) %>
+  <% end %>
 </div>
