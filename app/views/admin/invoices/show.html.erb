@@ -2,3 +2,15 @@
 <p><%= "Status: #{@invoice.status}" %></p>
 <p><%= "Created: #{@invoice.created_at.strftime("%A, %B %d, %Y")}" %></p>
 <p><%= "Customer: #{@invoice.customer.full_name}" %></p>
+
+
+<%= @invoice.items.each do |item| %>
+  <div id="item-<%=item.id%>">
+    <%= "Name: #{item.name}" %>
+    <% item.invoice_items.each do |invoice_item| %>
+      <%= "Quantity: #{invoice_item.quantity}" %>
+      <%= "Price: #{invoice_item.unit_price}" %>
+      <%= "Created: #{invoice_item.status}" %>
+    <% end %>
+  </div>
+<% end %>
