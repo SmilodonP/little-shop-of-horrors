@@ -62,9 +62,7 @@ RSpec.describe "Visiting the Admin Merchant Index Page", type: :feature do
       expect(page).to have_button("Disable")
 
       # When I click this button
-      # within "merchant-#{merchant_1.id}" do
       click_button "Enable"
-      # end
 
       # Then I am redirected back to the admin merchants index
       expect(current_path).to eq(admin_merchants_path)
