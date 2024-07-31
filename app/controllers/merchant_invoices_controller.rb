@@ -1,7 +1,7 @@
 class MerchantInvoicesController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
-    @merchant_invoice = @merchant.items
+    @merchant_invoice = @merchant.invoices
   end
 
   def show
