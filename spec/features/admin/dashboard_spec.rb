@@ -57,7 +57,6 @@ RSpec.describe "Admin Dashboard", type: :feature do
       within ".top_5_customers" do
 
       expect(page).to_not have_content(@customer_6.full_name)
-
       expect(page).to have_content("#{@customer_1.full_name} - #{Customer.top_5_customers[0].purchases} purchases")
       expect(page).to have_content("#{@customer_2.full_name} - #{Customer.top_5_customers[1].purchases} purchases")
       expect(page).to have_content("#{@customer_3.full_name} - #{Customer.top_5_customers[2].purchases} purchases")
@@ -107,6 +106,5 @@ RSpec.describe "Admin Dashboard", type: :feature do
         end
       end
     end
-    
   end
 end
