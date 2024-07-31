@@ -37,4 +37,12 @@ class Merchant < ApplicationRecord
     .limit(5)
   end
 
+  def self.enabled_merchants
+    Merchant.where(status: 'enabled')
+  end
+
+  def self.disabled_merchants
+    Merchant.where(status: 'disabled')
+  end
+
 end
