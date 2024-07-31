@@ -1,6 +1,4 @@
 require "rails_helper"
-# Kinda need to organize these tests better
-# Add describe blocks and User Story #'s
 
 RSpec.describe "Admin Dashboard", type: :feature do
   describe "When I visit the Admin Dashboard" do
@@ -49,8 +47,8 @@ RSpec.describe "Admin Dashboard", type: :feature do
     it "displays links to merchant and admin invoices indices" do
       visit admin_index_path
 
-      expect(page).to have_link("Merchants") # Is this robust enough or should 
-      expect(page).to have_link("Invoices")    # these be liketests for US#22?
+      expect(page).to have_link("Merchants")
+      expect(page).to have_link("Invoices") 
     end
 
     it "displays the names of top 5 customers with successful purchases" do
@@ -78,9 +76,6 @@ RSpec.describe "Admin Dashboard", type: :feature do
           expect(page).to have_link("#{@invoice_2.id}", :href =>"/admin/invoices/#{@invoice_2.id}")
           expect(page).to have_link("#{@invoice_3.id}", :href =>"/admin/invoices/#{@invoice_3.id}")
           expect(page).to have_link("#{@invoice_4.id}", :href =>"/admin/invoices/#{@invoice_4.id}")
-          # In that section I see a list of the ids of all invoices
-          # That have items that have not yet been shipped
-          # And each invoice id links to that invoice's admin show page
         end
       end
     end
@@ -110,9 +105,6 @@ RSpec.describe "Admin Dashboard", type: :feature do
           expect("Created: #{@invoice_2.created_at.strftime("%A, %B %d, %Y")}").to appear_before("Created: #{@invoice_3.created_at.strftime("%A, %B %d, %Y")}")
           expect("Created: #{@invoice_3.created_at.strftime("%A, %B %d, %Y")}").to appear_before("Created: #{@invoice_4.created_at.strftime("%A, %B %d, %Y")}")
         end
-          # Next to each invoice id I see the date that the invoice was created
-          # And I see the date formatted like "Monday, July 18, 2019"
-          # And I see that the list is ordered from oldest to newest
       end
     end
     
