@@ -118,6 +118,8 @@ RSpec.describe "Merchant Dashboard" do
           expect(page).to have_link("Invoice #{@invoice_15.id}")
         end
       end
+
+      
     end
   end
 end
