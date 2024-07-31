@@ -63,10 +63,20 @@ RSpec.describe Merchant, type: :model do
       end
     end
 
-      describe "User Story 30 query" do
-        xit "can return top 5 merchants based on revenue" do
-          expect(Merchant.top_five_merchants).to eq([@merchant_1, @merchant_4, @merchant_3, @merchant_2, @merchant_5])
-        end
+    describe "User Story 30 query" do
+      it "can return top 5 merchants based on revenue" do
+        expect(Merchant.top_five_merchants).to eq([@merchant_1, @merchant_4, @merchant_3, @merchant_2, @merchant_5])
       end
+    end
+
+    describe "#enabled_merchants" do
+      it "displays merchants based on enabled/disabled status" do
+        merchant_100 = create(:merchant, status: 0)
+        merchant_101 = create(:merchant, status: 1)
+        merchant_102 = create(:merchant, status: 1)
+        expect(Merchant.enabled_merchants).to eq([merchant_101, merchant_102])
+        expect(Merchant.disabled_merchants).to eq([merchant_100])
+      end
+    end
   end
 end
