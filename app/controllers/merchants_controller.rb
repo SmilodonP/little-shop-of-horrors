@@ -8,9 +8,4 @@ class MerchantsController < ApplicationController
   def index
     @merchant = Merchant.all
   end
-
-  def items_index
-    @merchant = Merchant.find(params[:merchant_id])
-    @items = @merchant.items
-  end
 end
