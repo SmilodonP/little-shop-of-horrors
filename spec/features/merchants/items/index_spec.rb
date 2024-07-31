@@ -106,4 +106,89 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       end
     end
   end
+
+
+  # User Story #12
+  describe "merchant items ranked by total revenue" do
+    it "displays names of top 5 items" do
+      @merchant_1 = create(:merchant)
+      @customer_1 = create(:customer)
+
+      @item_1 = create(:item, unit_price: 9, merchant: @merchant_1)
+      @item_2 = create(:item, unit_price: 8, merchant: @merchant_1)
+      @item_3 = create(:item, unit_price: 7, merchant: @merchant_1)
+      @item_4 = create(:item, unit_price: 6, merchant: @merchant_1)
+      @item_5 = create(:item, unit_price: 5, merchant: @merchant_1)
+      @item_6 = create(:item, unit_price: 1, merchant: @merchant_1)
+
+      @invoice_1 = create(:invoice, customer: @customer_1)
+      @invoice_2 = create(:invoice, customer: @customer_1)
+      @invoice_3 = create(:invoice, customer: @customer_1)
+      @invoice_4 = create(:invoice, customer: @customer_1)
+      @invoice_5 = create(:invoice, customer: @customer_1)
+      @invoice_6 = create(:invoice, customer: @customer_1)
+
+      @transaction_1 = create(:transaction, invoice_id: @invoice_1.id, result: 1)
+      @transaction_2 = create(:transaction, invoice_id: @invoice_2.id, result: 1)
+      @transaction_3 = create(:transaction, invoice_id: @invoice_3.id, result: 1)
+      @transaction_4 = create(:transaction, invoice_id: @invoice_4.id, result: 1)
+      @transaction_5 = create(:transaction, invoice_id: @invoice_5.id, result: 1)
+      @transaction_6 = create(:transaction, invoice_id: @invoice_6.id, result: 0)
+
+      # Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
+        # Therefore -> I'm putting multiple invoice_items to ensure they sum together
+      @invoice_item_1 = create(:invoice_item, quantity: 10, unit_price: 8, item_id: @item_1.id, invoice_id: @invoice_1.id, status: 2)
+      @invoice_item_2 = create(:invoice_item, quantity: 10, unit_price: 8, item_id: @item_1.id, invoice_id: @invoice_1.id, status: 2)
+      @invoice_item_3 = create(:invoice_item, quantity: 10, unit_price: 7, item_id: @item_2.id, invoice_id: @invoice_2.id, status: 2)
+      @invoice_item_4 = create(:invoice_item, quantity: 10, unit_price: 7, item_id: @item_2.id, invoice_id: @invoice_2.id, status: 2)
+      @invoice_item_5 = create(:invoice_item, quantity: 10, unit_price: 6, item_id: @item_3.id, invoice_id: @invoice_3.id, status: 2)
+      @invoice_item_6 = create(:invoice_item, quantity: 10, unit_price: 6, item_id: @item_3.id, invoice_id: @invoice_3.id, status: 2)
+      @invoice_item_7 = create(:invoice_item, quantity: 10, unit_price: 5, item_id: @item_4.id, invoice_id: @invoice_4.id, status: 2)
+      @invoice_item_8 = create(:invoice_item, quantity: 10, unit_price: 5, item_id: @item_4.id, invoice_id: @invoice_4.id, status: 2)
+      @invoice_item_9 = create(:invoice_item, quantity: 10, unit_price: 4, item_id: @item_5.id, invoice_id: @invoice_5.id, status: 2)
+      @invoice_item_10 = create(:invoice_item, quantity: 10, unit_price: 4, item_id: @item_5.id, invoice_id: @invoice_5.id, status: 2)
+      @invoice_item_6 = create(:invoice_item, quantity: 10, unit_price: 1, item_id: @item_6.id, invoice_id: @invoice_6.id, status: 0)
+
+      # As a merchant
+      # When I visit my items index page
+      visit merchant_items_path(@merchant_1)
+
+      # Then I see the names of the top 5 most popular items ranked by total revenue generated
+      # And I see that each item name links to my merchant item show page for that item
+      within "#top-5-items" 
+        expect(page).to have_link("#{@item_1.name}", href: merchant_item_path(@item_1))
+        expect(page).to have_link("#{@item_2.name}", href: merchant_item_path(@item_2))
+        expect(page).to have_link("#{@item_3.name}", href: merchant_item_path(@item_3))
+        expect(page).to have_link("#{@item_4.name}", href: merchant_item_path(@item_4))
+        expect(page).to have_link("#{@item_5.name}", href: merchant_item_path(@item_5))
+
+        expect(@item_1).to appear_before (@item_2)
+        expect(@item_2).to appear_before (@item_3)
+        expect(@item_3).to appear_before (@item_4)
+        expect(@item_4).to appear_before (@item_5)
+        
+        # And I see the total revenue generated next to each item name
+          # total_item_revenue will be a model method in Item class
+          # Multiply unit_price * quantity
+
+        # NOT SURE IF WE USE DYNAMIC TESTING HERE?
+        expect(page).to have_content("#{@item_1.total_item_revenue}")
+        expect(page).to have_content("#{@item_2.total_item_revenue}")
+        expect(page).to have_content("#{@item_3.total_item_revenue}")
+        expect(page).to have_content("#{@item_4.total_item_revenue}")
+        expect(page).to have_content("#{@item_5.total_item_revenue}")
+
+        # OR HARDCODED -> SHOULD ONLY NEED ONE OF THESE SETS
+        expect(@item_1.total_item_revenue).to eq(1600)
+        expect(@item_2.total_item_revenue).to eq(1400)
+        expect(@item_3.total_item_revenue).to eq(1200)
+        expect(@item_4.total_item_revenue).to eq(1000)
+        expect(@item_5.total_item_revenue).to eq(800)
+
+        # Notes on Revenue Calculation:
+        # - Only invoices with at least one successful transaction should count towards revenue
+        # - Revenue for an invoice should be calculated as the sum of the revenue of all invoice items
+        # - Revenue for an invoice item should be calculated as the invoice item unit price multiplied by the quantity (do not use the item unit price)
+    end
+  end
 end
