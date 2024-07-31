@@ -7,7 +7,7 @@
 <div id="top_customers">
   <h3>Top 5 Customers by Completed Transactions:</h3>
   <ul>
-    <% @merchant.top_customers.each do |customer| %>
+    <% @merchant.top_five_customers.each do |customer| %>
       <li><%= "#{customer.first_name} #{customer.last_name}: #{customer.transaction_count}" %></li>
     <% end %>
   </ul>
@@ -22,6 +22,6 @@
     <h2>Items Ready to Ship</h2>
     <% @items_ready_to_ship.each do |item| %>
       <p><%= item.name %></p>
-      <%= link_to "Invoice #{item.invoice_id}", invoice_path(item.invoice_id) %>
-    <% end %>
+        <%= link_to "Invoice #{item.invoice_id}", invoice_path(item.invoice_id) %>
+        <% end %>
   </div>

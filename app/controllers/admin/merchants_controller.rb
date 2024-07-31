@@ -1,6 +1,10 @@
 class Admin::MerchantsController < ApplicationController 
   def index
     @merchants = Merchant.all
+    @top_five_merchants = Merchant.top_five_merchants
+
+    @enabled_merchants = Merchant.enabled_merchants
+    @disabled_merchants = Merchant.disabled_merchants
   end
 
   def show
@@ -13,17 +17,15 @@ class Admin::MerchantsController < ApplicationController
 
   def update
     @merchant = Merchant.find(params[:id])
-    
-    if params[:status] #moved this above so that it can correctly enable merchants? Seems strange
+    if params[:status]
       @merchant.update(status: params[:status])
       redirect_to admin_merchants_path, notice: "The merchant has been #{@merchant.status}."
-    elsif @merchant.update(name: params[:name])
+    else
+      @merchant.update!(name: params[:merchant][:name])
       redirect_to admin_merchant_path(@merchant), notice: "GREAT SUCCESS!"
-    else   
-      render :edit
     end
   end
-  
+
   def new
     
   end
@@ -39,7 +41,7 @@ class Admin::MerchantsController < ApplicationController
   end 
 
   private
-  def merchant_params
-    params.permit(:name)
-  end
+    def merchant_params
+      params.permit(:name)
+    end
 end

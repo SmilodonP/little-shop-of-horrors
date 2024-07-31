@@ -1,0 +1,5 @@
+<h1><%= @merchant.name %> Invoice <%= @merchant_invoice.id %> </h1>
+<div>
+  <p> <%= link_to "Update Invoice", edit_merchant_invoice_path(@merchant, @merchant_invoice) %></p>
+  <p> Name: <%= @merchant_invoice.name %> </p>
+</div>
