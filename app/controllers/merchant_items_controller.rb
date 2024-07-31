@@ -1,12 +1,11 @@
 class MerchantItemsController < ApplicationController
-  def show
-    @merchant = Merchant.find(params[:merchant_id])
-    @merchant_item = @merchant.items.find(params[:id])
+  before_action :set_merchant
+  def index
+    @merchant_items = @merchant.items.all
   end
 
-  def index
-    @merchant = Merchant.find(params[:merchant_id])
-    @items = @merchant.items
+  def show
+    @merchant_item = @merchant.items.find(params[:id])
   end
 
   def edit
@@ -15,14 +14,35 @@ class MerchantItemsController < ApplicationController
   end
 
   def update
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = @merchant.items.find(params[:id])
-    if params[:status]
-    @item.update(status: params[:id])
-    redirect_to merchant_items_path(@merchant), noticel: "GREAT SUCCESS! The merch has been #{@item.status}."
-    elsif @item.update(item_params)
+    @merchant_item = @merchant.items.find(params[:id])
+    if @merchant_item.status == 0
+      @merchant_item.status == 1
+    elsif@merchant_item.status == 1
+      @merchant_item.status == 0
+    end
+  end
+
+  def enable_item
+    @merchant_item = @merchant.items.find(params[:id])
+    if @merchant_item.status == 0
+      @merchant_item.update(status: params[:status])
+      redirect_to merchant_items_path(@merchant), notice: "GREAT SUCCESS! The merch has been #{@merchant_item.status}."
+    elsif @merchant_item.update(item_params)
       flash[:success] = "Item Info Successfully Updated"
-      redirect_to merchant_item_path(@merchant, @item)
+      redirect_to merchant_item_path(@merchant, @merchant_item)
+    else
+      render :edit
+    end
+  end
+
+  def disable_item
+    @merchant_item = @merchant.items.find(params[:id])
+    if @merchant_item.status == 1
+      @merchant_item.update(status: params[:status])
+      redirect_to merchant_items_path(@merchant), notice: "GREAT SUCCESS! The merch has been #{@merchant_item.status}."
+    elsif @merchant_item.update(item_params)
+      flash[:success] = "Item Info Successfully Updated"
+      redirect_to merchant_item_path(@merchant, @merchant_item)
     else
       render :edit
     end
@@ -30,7 +50,11 @@ class MerchantItemsController < ApplicationController
 
   private
 
+  def set_merchant
+    @merchant = Merchant.find(params[:merchant_id])
+  end
+
   def item_params
-    params.require(:item).permit(:name, :description, :unit_price)
+    params.require(:item).permit(:name, :description, :unit_price, :status)
   end
 end

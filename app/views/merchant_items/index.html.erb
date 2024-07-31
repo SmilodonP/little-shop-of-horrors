@@ -1,11 +1,11 @@
 <h1><%= @merchant.name %>'s Items</h1>
 
 <div id="merchant_items">
-  <% @items.each do |item| %>
-    <div id="item-<%=-item.id%>">
-      <p><%= link_to "#{item.name}", merchant_item_path(@merchant, item)%></p>
-      <p><%= button_to "Disable", merchant_item_path(@merchant, item, status: :disabled), method: :patch %></p>
+  <% @merchant_items.each do |item| %>
+      <p><%= link_to "#{item.name}", merchant_item_path(@merchant, item) %></p>
       <p><%= button_to "Enable", merchant_item_path(@merchant, item, status: :enabled), method: :patch %></p>
-    </div>
+      <p><%= button_to "Disable", merchant_item_path(@merchant, item, status: :disabled), method: :patch %></p>
+    
   <% end %>
 </div>
+
