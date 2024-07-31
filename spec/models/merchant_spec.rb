@@ -65,7 +65,7 @@ RSpec.describe Merchant, type: :model do
 
       describe "User Story 30 query" do
         it "can return top 5 merchants based on revenue" do
-          expect(Merchant.top_5_merchants).to eq([@merchant_1, @merchant_4, @merchant_3, @merchant_2, @merchant_5])
+          expect(Merchant.top_five_merchants).to eq([@merchant_1, @merchant_4, @merchant_3, @merchant_2, @merchant_5])
         end
       end
   end
