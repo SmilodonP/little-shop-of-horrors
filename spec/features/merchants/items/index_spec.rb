@@ -79,6 +79,34 @@ RSpec.describe "Merchant Dashboard", type: :feature do
     end
   end
 
+  # User Story #10
+  describe "group merchant items by status" do
+    it "displays enabled merchant items" do
+      @merchant_1 = create(:merchant)
+      @item_1 = create(:item, status: 0)
+      @item_2 = create(:item, status: 0)
+      @item_3 = create(:item, status: 1)
+      @item_4 = create(:item, status: 1)
+
+      # When I visit my merchant items index page
+      visit merchant_items_path(@merchant_1)
+
+      # Then I see two sections, one for "Enabled Items" and one for "Disabled Items"
+      within '.enabled' do 
+        expect(page).to have_content("Enabled Merchant Items")
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_2.name)
+      end
+
+      # And I see that each Item is listed in the appropriate section
+      within '.disabled' do 
+        expect(page).to have_content("Disabled Merchant Items")
+        expect(page).to have_content(@item_3.name)
+        expect(page).to have_content(@item_4.name)
+      end
+    end
+  end
+
   # User Story #11
   describe "creating new item from merchant index page" do
     it "creates new merchant item via form" do
@@ -112,7 +140,11 @@ RSpec.describe "Merchant Dashboard", type: :feature do
       expect(page).to have_content("1000")
 
       # And I see my item was created with a default status of disabled.
-      expect(page).to have_content("Status: Disabled")
+        # MAY REQUIRE TROUBLESHOOTING ONCE FORMS EXIST
+        # SHOULD GET US ON THE RIGHT TRACK
+      @new_item = Item.last
+      expect(page).to have_content("#{@new_item.status}")
+      expect(@new_item.status).to eq("disabled")
     end
   end
 end
