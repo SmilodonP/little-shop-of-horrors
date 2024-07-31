@@ -104,20 +104,22 @@ RSpec.describe "Merchant Dashboard" do
 
       # User Story 4
       it "displays items ready to ship with a link to the invoice" do 
-        visit merchant_path(@merchant_1)
-        # save_and_open_page
+        visit merchant_dashboard_index_path(@merchant_1)
         within "#items_ready_to_ship" do
         
-        expect(page).to have_content("Items Ready to Ship")
+          expect(page).to have_content("Items Ready to Ship")
 
-          expect(page).to have_content(@item_2.name)
-          expect(page).to_not have_content(@item_1.name)
-          expect(page).to_not have_content(@item_3.name)
+        expect(page).to have_content(@item_1.name)
+        expect(page).to_not have_content(@item_2.name)
+        expect(page).to_not have_content(@item_3.name)
 
-          expect(page).to have_link("Invoice #{@invoice_14.id}")
-          expect(page).to have_link("Invoice #{@invoice_15.id}")
+        expect(page).to have_link("Invoice #{@invoice_2.id}")
+        expect(page).to have_link("Invoice #{@invoice_9.id}")
+        expect(page).to have_link("Invoice #{@invoice_15.id}")
         end
       end
+
+      
     end
   end
 end

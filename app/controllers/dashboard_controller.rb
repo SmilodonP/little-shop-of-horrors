@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @top_five_customers = @merchant.top_five_customers
+    @items_ready_to_ship = @merchant.items_ready_to_ship
     @merchant_invoices = @merchant.items.invoices
   end
 end

@@ -11,20 +11,20 @@ class Merchant < ApplicationRecord
 
   def top_five_customers
     Customer
-    .select("customers.id, customers.first_name, customers.last_name, COUNT(t1.id) AS transaction_count")
-    .joins('INNER JOIN invoices ON invoices.customer_id = customers.id')
-    .joins('INNER JOIN transactions t1 ON t1.invoice_id = invoices.id')
-    .joins('INNER JOIN invoice_items ON invoices.id = invoice_items.invoice_id')
-    .joins('INNER JOIN items ON items.id = invoice_items.item_id')
-    .where(t1: { result: 1 }, items: { merchant_id: self.id })
-    .group('customers.id, customers.first_name, customers.last_name')
-    .order('transaction_count DESC')
-    .limit(5)
+      .select("customers.id, customers.first_name, customers.last_name, COUNT(transactions.id) AS transaction_count")
+      .joins(invoices: [:transactions, { invoice_items: :item }])
+      .where(transactions: { result: 1 }, items: { merchant_id: id })
+      .group('customers.id')
+      .order(transaction_count: :desc)
+      .limit(5)
   end
 
   def items_ready_to_ship
-    items.joins(:invoice_items)
-    .where(invoice_items: { status: 0 })
+    items
+    .joins(invoice_items: :invoice)
+    .select("items.*, invoices.created_at, invoices.id as invoice_id")
+    .where(invoice_items: {status:0})
+    .order("invoices.created_at")
     .distinct
   end
 
