@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root to: "main#index"
+
   resources :merchants, only: [:show, :index] do
     resources :dashboard, only: [:index]
     resources :items, only: [:index, :edit, :update, :show, :create, :new], controller: :merchant_items
