@@ -125,8 +125,8 @@ RSpec.describe "Merchant Dashboard", type: :feature do
 
       # I am taken to a form that allows me to add item information.
       fill_in "Name: ", with: "Jinco Jeans"
-      fill_in "Description: ", with "Thug Life"
-      fill_in "Unit Price: ", with "1000"
+      fill_in "Description: ", with: "Thug Life"
+      fill_in "Unit Price: ", with: "1000"
 
       # When I fill out the form I click ‘Submit’
       click_button "Submit"
