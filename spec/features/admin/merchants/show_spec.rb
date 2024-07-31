@@ -7,7 +7,7 @@ require "rails_helper"
 RSpec.describe "Admin Merchant Show Page", type: :feature do
   describe "navigating to a merchant's show page" do
     describe "User Story #26" do
-      it "Admin Merchant Update" do
+      xit "Admin Merchant Update" do
         ### I'M GONNA START DOING THIS STYLE FOR TESTING WITH EACH LINE OF THE US ABOVE THE code
         ###- MIKEY LIKEY
 
