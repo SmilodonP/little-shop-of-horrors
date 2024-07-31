@@ -55,6 +55,12 @@ RSpec.describe Merchant, type: :model do
       @invoice_item_6 = create(:invoice_item, quantity: 8, unit_price: 5, item_id: @item_2.id, invoice_id: @invoice_6.id, status: 2)
     end
 
+    it "concatenates first and last names into a full name" do
+      customer_99 = create(:customer, first_name: "Hell", last_name: "Boy")
+
+      expect(customer_99.full_name).to eq("Hell Boy")
+    end
+
     describe "class methods" do
       describe "top_customers" do
         it "returns the top five customers for a particular merchant" do
