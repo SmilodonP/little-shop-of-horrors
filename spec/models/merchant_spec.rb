@@ -46,19 +46,12 @@ RSpec.describe Merchant, type: :model do
       @item_5 = create(:item, unit_price: 5, merchant_id: @merchant_4.id)
       @item_6 = create(:item, unit_price: 5, merchant_id: @merchant_5.id)
 
-
       @invoice_item_1 = create(:invoice_item, quantity: 40, unit_price: 10, item_id: @item_1.id, invoice_id: @invoice_1.id, status: 0)
       @invoice_item_2 = create(:invoice_item, quantity: 9, unit_price: 10, item_id: @item_3.id, invoice_id: @invoice_2.id, status: 0)
       @invoice_item_3 = create(:invoice_item, quantity: 15, unit_price: 10, item_id: @item_4.id, invoice_id: @invoice_3.id, status: 1)
       @invoice_item_4 = create(:invoice_item, quantity: 21, unit_price: 10, item_id: @item_5.id, invoice_id: @invoice_4.id, status: 1)
       @invoice_item_5 = create(:invoice_item, quantity: 1, unit_price: 10, item_id: @item_6.id, invoice_id: @invoice_5.id, status: 2)
       @invoice_item_6 = create(:invoice_item, quantity: 8, unit_price: 5, item_id: @item_2.id, invoice_id: @invoice_6.id, status: 2)
-    end
-
-    it "concatenates first and last names into a full name" do
-      customer_99 = create(:customer, first_name: "Hell", last_name: "Boy")
-
-      expect(customer_99.full_name).to eq("Hell Boy")
     end
 
     describe "class methods" do
@@ -69,10 +62,10 @@ RSpec.describe Merchant, type: :model do
       end
     end
 
-      describe "User Story 30 query" do
-        it "can return top 5 merchants based on revenue" do
-          expect(Merchant.top_five_merchants).to eq([@merchant_1, @merchant_4, @merchant_3, @merchant_2, @merchant_5])
-        end
+    describe "User Story 30 query" do
+      it "can return top 5 merchants based on revenue" do
+        expect(Merchant.top_five_merchants).to eq([@merchant_1, @merchant_4, @merchant_3, @merchant_2, @merchant_5])
       end
+    end
   end
 end
