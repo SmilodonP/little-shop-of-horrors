@@ -19,14 +19,14 @@ class Merchant < ApplicationRecord
       .limit(5)
   end
 
-  def items_ready_to_ship
-    items
-    .joins(invoice_items: :invoice)
-    .select("items.*, invoices.created_at, invoices.id as invoice_id")
-    .where(invoice_items: {status:0})
-    .order("invoices.created_at")
-    .distinct
-  end
+  # def items_ready_to_ship
+  #   items
+  #   .joins(invoice_items: :invoice)
+  #   .select("items.*, invoices.created_at, invoices.id as invoice_id")
+  #   .where(invoice_items: {status:0})
+  #   .order("invoices.created_at")
+  #   .distinct
+  # end
 
   def self.top_five_merchants 
     joins(:transactions)
